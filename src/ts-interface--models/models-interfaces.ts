@@ -10,6 +10,20 @@ interface SchoolSchema {
   school_email: string;
   admin_position: string;
   admin_password: string;
+  
 }
 
-export { SchoolSchema };
+interface ParentSchema {
+  student_name: String;
+  date_of_birth: Date;
+  nationality: String;
+  state_of_origin: String;
+  local_government_area: String;
+  profile_picture: String;
+  parents_name: String;
+  parents_phone_number: Number;
+  parents_address: String;
+  students_intended_class: String;
+}
+
+export { SchoolSchema, ParentSchema };
