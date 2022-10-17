@@ -50,15 +50,20 @@ const schoolSchema = new mongoose.Schema(
       require: [true, "password field is empty"],
       unique: true,
     },
+    school_students_parents:[
+      {
+          type:mongoose.Schema.Types.ObjectId,
+          ref:"Users"
+      }
+    ],
   },
   { timestamps: true }
 );
 
 schoolSchema.pre("save", async function () {
-  const salt = await bcrypt.genSalt(10);
+  const salt = await bcrypt.genSalt(12);
   this.admin_password = bcrypt.hashSync(this.admin_password!, salt);
 });
-
 
 schoolSchema.path("admin_password").validate(function (this: any) {
   const value = this.admin_password!;
@@ -67,6 +72,7 @@ schoolSchema.path("admin_password").validate(function (this: any) {
   }
   return true;
 });
+
 schoolSchema.path("phone_number").validate(function (this: any) {
   const value = this.phone_number!;
   if (value === "") {
@@ -74,6 +80,7 @@ schoolSchema.path("phone_number").validate(function (this: any) {
   }
   return true;
 });
+
 schoolSchema.path("admin_lastname").validate(function (this: any) {
   const value = this.admin_lastname!;
   if (value === "") {
@@ -81,6 +88,7 @@ schoolSchema.path("admin_lastname").validate(function (this: any) {
   }
   return true;
 });
+
 schoolSchema.path("school_adress").validate(function (this: any) {
   const value = this.school_adress!;
   if (value === "") {
@@ -88,6 +96,7 @@ schoolSchema.path("school_adress").validate(function (this: any) {
   }
   return true;
 });
+
 schoolSchema.path("admin_firstname").validate(function (this: any) {
   const value = this.admin_firstname!;
   if (value === "") {
@@ -95,6 +104,7 @@ schoolSchema.path("admin_firstname").validate(function (this: any) {
   }
   return true;
 });
+
 schoolSchema.path("school_name").validate(function (this: any) {
   const value = this.school_name!;
   if (value === "") {

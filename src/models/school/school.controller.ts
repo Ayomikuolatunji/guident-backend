@@ -1,4 +1,4 @@
-import asyncHandler from "express-async-handler";
+import expressAsyncHandler from "express-async-handler";
 import dotenv from "dotenv";
 import { StatusCodes } from "http-status-codes";
 import bcrypt from "bcrypt";
@@ -10,7 +10,7 @@ import sendSchoolReqEmail from "../../emails/schools/SchoolRegEmail";
 
 dotenv.config();
 
-export const createSchoolAccount = asyncHandler(async (req, res, next) => {
+export const createSchoolAccount = expressAsyncHandler(async (req, res, next) => {
   const IfSchoolExits = await schoolSchema.findOne<SchoolSchema>({
     school_email: req.body.school_email,
   });
@@ -37,7 +37,7 @@ export const createSchoolAccount = asyncHandler(async (req, res, next) => {
   res.status(StatusCodes.OK).json({ message: "Account created successfully" });
 });
 
-export const loginSchoolAccount = asyncHandler(async (req, res, next) => {
+export const loginSchoolAccount = expressAsyncHandler(async (req, res, next) => {
   const email = (req.body as { school_email: string }).school_email;
   const password = (req.body as { admin_password: string }).admin_password;
   const loginSchool = await schoolSchema.findOne<SchoolSchema>({
@@ -61,15 +61,15 @@ export const loginSchoolAccount = asyncHandler(async (req, res, next) => {
   });
 });
 
-export const all_createdSchools = asyncHandler(async (req, res, next) => {
+export const all_createdSchools = expressAsyncHandler(async (req, res, next) => {
   const all_schools = await schoolSchema.find({});
   res
     .status(StatusCodes.OK)
     .json({ message: "All created school data", all_schools });
 });
 
-export const resetSchoolAccountPassword = asyncHandler((req, res, next) => {});
+export const resetSchoolAccountPassword = expressAsyncHandler((req, res, next) => {});
 
-export const updatePassword = asyncHandler(async (req, res, next) => {});
+export const updatePassword = expressAsyncHandler(async (req, res, next) => {});
 
-export const updateOtherInfomation = asyncHandler((req, res, next) => {});
+

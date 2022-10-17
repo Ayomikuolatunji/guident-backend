@@ -1,3 +1,7 @@
+interface _id {
+  _id: string;
+}
+
 interface SchoolSchema {
   _id?: string;
   school_name: string;
@@ -10,20 +14,22 @@ interface SchoolSchema {
   school_email: string;
   admin_position: string;
   admin_password: string;
-  
+  school_students_parents?: any;
 }
 
 interface ParentSchema {
-  student_name: String;
+  _id?: string;
+  student_name: string;
   date_of_birth: Date;
-  nationality: String;
-  state_of_origin: String;
-  local_government_area: String;
-  profile_picture: String;
-  parents_name: String;
-  parents_phone_number: Number;
-  parents_address: String;
-  students_intended_class: String;
+  nationality: string;
+  state_of_origin: string;
+  local_government_area: string;
+  profile_picture: string;
+  parents_name: string;
+  parents_phone_number: number;
+  parents_address: string;
+  school_ref:string
+  students_intended_class: string;
 }
 
 export { SchoolSchema, ParentSchema };
