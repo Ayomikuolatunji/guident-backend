@@ -27,8 +27,10 @@ interface ParentSchema {
   profile_picture: string;
   parents_name: string;
   parents_phone_number: number;
+  parents_email?: string;
   parents_address: string;
-  school_ref:string
+  school_ref: string;
+  parent_password?: string;
   students_intended_class: string;
 }
 

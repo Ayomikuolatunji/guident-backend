@@ -28,6 +28,10 @@ const parentSchema = new mongoose.Schema(
       type: String,
       require: [true, "Student profile picture is required"],
     },
+    parents_email: {
+      type: String,
+      require: [true, "Student profile picture is required"],
+    },
     parents_name: {
       type: String,
       require: [true, "Guardian name is required"],
@@ -60,12 +64,12 @@ parentSchema.pre("save", async function () {
   this.parent_password = bcrypt.hashSync(this.parent_password!, salt);
 });
 
-parentSchema.path("admin_password").validate(function (this: any) {
-  const value = this.admin_password!;
-  if (value === "") {
-    throwError("Password should not be empty", 409);
-  }
-  return true;
-});
+// parentSchema.path("parent_password").validate(function (this: any) {
+//   const value = this.parent_password!;
+//   if (value === "") {
+//     throwError("Password should not be empty", 409);
+//   }
+//   return true;
+// });
 
 export default mongoose.model("parentSchema", parentSchema);

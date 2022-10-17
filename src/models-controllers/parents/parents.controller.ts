@@ -7,19 +7,20 @@ import {
 import parentSchema from "./parents.model";
 import schoolSchema from "../school/school.model";
 import { throwError } from "../../middleware/ControllerError";
+import sendParentsReqEmail from "../../emails/parents/sendParentsEmails";
 
 export const createParentStudentAccount = expressAsyncHandler(
   async (req, res, next) => {
-    const schoolId = req.query.school_id as string;
+    const { school_id } = req.params;
     // check if school exits for this particular parents(child)
     const findSchool: any = await schoolSchema.findById<SchoolSchema>({
-      _id: schoolId,
+      _id: school_id,
     });
     if (!findSchool) {
       throwError("You need to provide the school _id", 404);
     }
     let _id: string = "";
-    const createParentStudentAccount = new parentSchema<ParentSchema>({
+    const parentStudentAccount = new parentSchema<ParentSchema>({
       student_name: (req.body as { student_name: string }).student_name,
       date_of_birth: (req.body as { date_of_birth: Date }).date_of_birth,
       nationality: (req.body as { nationality: string }).nationality,
@@ -34,22 +35,25 @@ export const createParentStudentAccount = expressAsyncHandler(
         .parents_phone_number,
       parents_address: (req.body as { parents_address: string })
         .parents_address,
+      parents_email: (req.body as { parents_email: string }).parents_email,
       students_intended_class: (req.body as { students_intended_class: string })
         .students_intended_class,
-      school_ref: schoolId,
+      school_ref: school_id,
+      parent_password: (req.body as { parent_password: string })
+        .parent_password,
     });
-    if (createParentStudentAccount)
-      _id = createParentStudentAccount._id as unknown as string;
+    if (parentStudentAccount)
+      _id = parentStudentAccount._id! as unknown as string;
     // check if student already exits
-    if (findSchool?.school_students_parents.includes(_id)) {
-      throwError("Student already exits", 409);
-    } else {
-      await createParentStudentAccount.save();
-    }
+    await parentStudentAccount.save();
     // update employee id to school students  array
     findSchool?.school_students_parents.push(_id);
     await findSchool!.save();
-    // add to a particular school
+    // send email to the student parent
+    sendParentsReqEmail(
+      parentStudentAccount?.parents_email!,
+      parentStudentAccount?.student_name!
+    );
     res
       .status(StatusCodes.OK)
       .json({ Message: "student admitted successfully" });

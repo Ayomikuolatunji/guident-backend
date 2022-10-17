@@ -4,7 +4,7 @@ import {
   createSchoolAccount,
   loginSchoolAccount,
   resetSchoolAccountPassword,
-} from "../models/school/school.controller";
+} from "../models-controllers/school/school.controller";
 
 const router = express.Router();
 
