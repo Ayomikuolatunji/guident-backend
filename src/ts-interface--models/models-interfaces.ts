@@ -25,13 +25,13 @@ interface ParentSchema {
   state_of_origin: string;
   local_government_area: string;
   profile_picture: string;
-  parents_name: string;
-  parents_phone_number: number;
-  parents_email?: string;
-  parents_address: string;
-  school_ref: string;
+  parent_name: string;
+  parent_phone_number: number;
+  parent_email?: string;
+  parent_address: string;
+  school_ref?: string;
   parent_password?: string;
-  students_intended_class: string;
+  student_intended_class: string;
 }
 
 export { SchoolSchema, ParentSchema };

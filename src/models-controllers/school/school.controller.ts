@@ -38,11 +38,11 @@ export const loginSchoolAccount = expressAsyncHandler(
     const loginSchool = await schoolSchema.findOne<SchoolSchema>({
       email: email,
     });
-    const hashPassword = bcrypt.compareSync(
+    const comparePassword = bcrypt.compareSync(
       admin_password,
       loginSchool?.admin_password!
     );
-    if (!hashPassword) {
+    if (!comparePassword) {
       throwError("Invalid email or password", StatusCodes.BAD_REQUEST);
     }
     const token = jwt.sign(

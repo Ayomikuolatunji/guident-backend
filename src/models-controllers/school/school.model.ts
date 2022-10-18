@@ -2,8 +2,9 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 // import jsonwebtoken from "jsonwebtoken"
 import { throwError } from "../../middleware/ControllerError";
+import { SchoolSchema } from "../../ts-interface--models/models-interfaces";
 
-const schoolSchema = new mongoose.Schema(
+const schoolSchema = new mongoose.Schema<SchoolSchema>(
   {
     school_name: {
       type: String,

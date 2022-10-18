@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import { throwError } from "../../middleware/ControllerError";
+import { ParentSchema } from "../../ts-interface--models/models-interfaces";
 
-const parentSchema = new mongoose.Schema(
+const parentSchema = new mongoose.Schema<ParentSchema>(
   {
     student_name: {
       type: String,
@@ -28,23 +29,23 @@ const parentSchema = new mongoose.Schema(
       type: String,
       require: [true, "Student profile picture is required"],
     },
-    parents_email: {
+    parent_email: {
       type: String,
       require: [true, "Student profile picture is required"],
     },
-    parents_name: {
+    parent_name: {
       type: String,
       require: [true, "Guardian name is required"],
     },
-    parents_phone_number: {
+    parent_phone_number: {
       type: Number,
       require: [true, "Guardian phone number is required"],
     },
-    parents_address: {
+    parent_address: {
       type: String,
       require: [true, "Guardian address is required"],
     },
-    students_intended_class: {
+    student_intended_class: {
       type: String,
       require: [true, "students intended class is required"],
     },
