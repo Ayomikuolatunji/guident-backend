@@ -1,6 +1,6 @@
 import express from "express";
 import { createParentStudentAccount } from "../models-controllers/parents/parents.controller";
-
+import authToken from "../middleware/authToken";
 const router = express.Router();
 
 // register a student under a school endpoint
@@ -24,9 +24,6 @@ const router = express.Router();
  *
  */
 
-router.post("/admit_student/:school_id", createParentStudentAccount);
+router.post("/admit_student/school", authToken, createParentStudentAccount);
 
-
-
-
-export default router
+export default router;

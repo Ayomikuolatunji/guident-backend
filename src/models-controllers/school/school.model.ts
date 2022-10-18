@@ -50,20 +50,15 @@ const schoolSchema = new mongoose.Schema(
       require: [true, "password field is empty"],
       unique: true,
     },
-    school_students_parents:[
+    school_students_parents: [
       {
-          type:mongoose.Schema.Types.ObjectId,
-          ref:"Users"
-      }
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Users",
+      },
     ],
   },
   { timestamps: true }
 );
-
-schoolSchema.pre("save", async function () {
-  const salt = await bcrypt.genSalt(12);
-  this.admin_password = bcrypt.hashSync(this.admin_password!, salt);
-});
 
 schoolSchema.path("admin_password").validate(function (this: any) {
   const value = this.admin_password!;

@@ -10,24 +10,18 @@ import sendSchoolReqEmail from "../../emails/schools/SchoolRegEmail";
 
 dotenv.config();
 
-export const createSchoolAccount = expressAsyncHandler(async (req, res, next) => {
+export const createSchoolAccount = expressAsyncHandler(async (req, res) => {
   const IfSchoolExits = await schoolSchema.findOne<SchoolSchema>({
     school_email: req.body.school_email,
   });
   if (IfSchoolExits) {
     throwError("School already created with the email provided", 409);
   }
+  const salt = await bcrypt.genSalt(15);
+  const hashPassword = bcrypt.hashSync(req.body.admin_password, salt);
   const school = new schoolSchema<SchoolSchema>({
-    school_name: (req.body as { school_name: string }).school_name,
-    school_adress: (req.body as { school_adress: string }).school_adress,
-    rc_number: (req.body as { rc_number: number }).rc_number,
-    school_logo: (req.body as { school_logo: string }).school_logo,
-    admin_firstname: (req.body as { admin_firstname: string }).admin_firstname,
-    admin_lastname:( req.body as {admin_lastname:string}).admin_lastname,
-    phone_number: parseInt(req.body.phone_number),
-    school_email: (req.body as { school_email: string }).school_email,
-    admin_position: (req.body as { school_location: string }).school_location,
-    admin_password: (req.body as { admin_password: string }).admin_password,
+    ...(req.body as SchoolSchema),
+    admin_password: hashPassword,
   });
   const result = await school.save();
   if (result) {
@@ -37,39 +31,46 @@ export const createSchoolAccount = expressAsyncHandler(async (req, res, next) =>
   res.status(StatusCodes.OK).json({ message: "Account created successfully" });
 });
 
-export const loginSchoolAccount = expressAsyncHandler(async (req, res, next) => {
-  const email = (req.body as { school_email: string }).school_email;
-  const password = (req.body as { admin_password: string }).admin_password;
-  const loginSchool = await schoolSchema.findOne<SchoolSchema>({
-    email: email,
-  });
-  const isEqual = await bcrypt.compare(password, loginSchool!.admin_password);
-  if (!isEqual) {
-    throwError("Invalid email or password", StatusCodes.BAD_REQUEST);
+export const loginSchoolAccount = expressAsyncHandler(
+  async (req, res, next) => {
+    const email = req.body.school_email;
+    const admin_password = req.body.admin_password;
+    const loginSchool = await schoolSchema.findOne<SchoolSchema>({
+      email: email,
+    });
+    const hashPassword = bcrypt.compareSync(
+      admin_password,
+      loginSchool?.admin_password!
+    );
+    if (!hashPassword) {
+      throwError("Invalid email or password", StatusCodes.BAD_REQUEST);
+    }
+    const token = jwt.sign(
+      {
+        school_email: loginSchool?.school_email,
+        id: loginSchool?._id!.toString(),
+      },
+      `${process.env.JWT_SECRET_KEY}`,
+      { expiresIn: "30d" }
+    );
+    res.status(StatusCodes.OK).json({
+      message: "Login successfully",
+      school_credentials: { token: token, school_id: loginSchool?._id },
+    });
   }
-  const token = jwt.sign(
-    {
-      email: loginSchool?.school_email,
-      id: loginSchool?._id!.toString(),
-    },
-    `${process.env.JWT_SECRET_KEY?.toString()}`,
-    { expiresIn: "30d" }
-  );
-  res.status(StatusCodes.OK).json({
-    message: "Login successful",
-    school_credentials: { token: token, school_id: loginSchool?._id },
-  });
-});
+);
 
-export const all_createdSchools = expressAsyncHandler(async (req, res, next) => {
-  const all_schools = await schoolSchema.find({});
-  res
-    .status(StatusCodes.OK)
-    .json({ message: "All created school data", all_schools });
-});
+export const all_createdSchools = expressAsyncHandler(
+  async (req, res, next) => {
+    const all_schools = await schoolSchema.find({});
+    res
+      .status(StatusCodes.OK)
+      .json({ message: "All created school data", all_schools });
+  }
+);
 
-export const resetSchoolAccountPassword = expressAsyncHandler((req, res, next) => {});
+export const resetSchoolAccountPassword = expressAsyncHandler(
+  (req, res, next) => {}
+);
 
 export const updatePassword = expressAsyncHandler(async (req, res, next) => {});
-
-
