@@ -1,9 +1,12 @@
-interface _id {
-  _id: string;
+interface mongooseId {
+  _id?: string;
 }
 
-interface SchoolSchema {
-  _id?: string;
+interface DocumentResult<T> {
+  _doc: T;
+}
+
+interface SchoolSchema extends mongooseId, DocumentResult<SchoolSchema> {
   school_name: string;
   school_adress: string;
   rc_number: number;
@@ -17,8 +20,7 @@ interface SchoolSchema {
   school_students_parents?: any;
 }
 
-interface ParentSchema {
-  _id?: string;
+interface ParentSchema extends mongooseId, DocumentResult<ParentSchema> {
   student_name: string;
   date_of_birth: Date;
   nationality: string;
