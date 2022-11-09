@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const school_controller_1 = require("../models-controllers/school/school.controller");
+const apicache_1 = __importDefault(require("../services/apicache"));
 const router = express_1.default.Router();
 /**
  * @swagger
@@ -189,5 +190,5 @@ router.patch("/reset_school_password", school_controller_1.resetSchoolAccountPas
  *              items:
  *                $ref: '#/components/schemas/School'
  */
-router.get("/all_schools", school_controller_1.all_createdSchools);
+router.get("/all_schools", apicache_1.default, school_controller_1.all_createdSchools);
 exports.default = router;

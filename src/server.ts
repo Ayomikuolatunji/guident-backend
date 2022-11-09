@@ -1,8 +1,10 @@
-import express, { Application } from "express";
+import express, { Application, Request, Response } from "express";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import cors from "cors";
 import swaggerUI from "swagger-ui-express";
+
+
 import mongoDbConnection from "./database/mongoDB";
 import requestHeaders from "./middleware/requestHeaders";
 import errorHandler from "./middleware/requestErrorHandle";
@@ -22,6 +24,10 @@ app.use(cors());
 
 // client request headers
 app.use(requestHeaders);
+
+// higher-order function returns false for responses of other status codes (e.g. 403, 404, 500, etc)
+
+
 
 // api documentation server
 app.use(

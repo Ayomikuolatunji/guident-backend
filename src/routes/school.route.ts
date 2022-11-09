@@ -5,7 +5,7 @@ import {
   loginSchoolAccount,
   resetSchoolAccountPassword,
 } from "../models-controllers/school/school.controller";
-
+import cacheSuccesses from "../services/apicache";
 const router = express.Router();
 
 /**
@@ -33,7 +33,7 @@ const router = express.Router();
  *        message:
  *          type: string
  *          description: token message
- *        school: 
+ *        school:
  *          type: object
  *          description: jkh
  *      example:
@@ -147,7 +147,7 @@ router.post("/signup_school", createSchoolAccount);
  *            $ref: '#/components/schemas/LoginSchema'
  *    responses:
  *      200:
- *        description: Login json response. 
+ *        description: Login json response.
  *        content:
  *          application/json:
  *            schema:
@@ -197,6 +197,6 @@ router.patch("/reset_school_password", resetSchoolAccountPassword);
  *                $ref: '#/components/schemas/School'
  */
 
-router.get("/all_schools", all_createdSchools);
+router.get("/all_schools", cacheSuccesses, all_createdSchools);
 
 export default router;
