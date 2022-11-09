@@ -11,7 +11,7 @@ const options = {
         info: {
             title: "Guident API Documentation",
             version: "1.0.0",
-            description: "Api hub and store for guident services",
+            description: "V1 API's for guident services",
         },
         servers: [
             {
@@ -19,7 +19,7 @@ const options = {
             },
         ],
     },
-    apis: ["./src/routes/*.ts"], // files containing annotations as above
+    apis: ["./src/routes/*.ts"],
 };
 const openapiSpecification = (0, swagger_jsdoc_1.default)(options);
 exports.default = openapiSpecification;

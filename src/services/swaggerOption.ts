@@ -7,7 +7,7 @@ const options = {
     info: {
       title: "Guident API Documentation",
       version: "1.0.0",
-      description: "Api hub and store for guident services",
+      description: "V1 API's for guident services",
     },
     servers: [
       {
