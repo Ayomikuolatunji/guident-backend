@@ -44,7 +44,7 @@ app.use(requestErrorHandle_1.default);
 (function startConnection() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            app.listen(process.env.PORT, () => {
+            app.listen(process.env.PORT || 8000, () => {
                 console.log(`App running on port ${process.env.PORT}`);
             });
             yield (0, mongoDB_1.default)();

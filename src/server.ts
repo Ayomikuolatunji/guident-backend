@@ -41,7 +41,7 @@ app.use(errorHandler);
 // connecting server
 (async function startConnection() {
   try {
-    app.listen(process.env.PORT!, () => {
+    app.listen(process.env.PORT! || 8000, () => {
       console.log(`App running on port ${process.env.PORT}`);
     });
     await mongoDbConnection();
