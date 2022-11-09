@@ -8,6 +8,7 @@ import { throwError } from "../../middleware/ControllerError";
 import schoolSchema from "./school.model";
 import { SchoolSchema } from "../../ts-interface--models/models-interfaces";
 import sendSchoolReqEmail from "../../emails/schools/SchoolRegEmail";
+import { getMutatedMomgooseField } from "../../helpers/utils";
 
 dotenv.config();
 
@@ -26,10 +27,12 @@ export const createSchoolAccount = expressAsyncHandler(async (req, res) => {
   });
   const result = await school.save();
   if (result) {
-    const result = await school.save();
     sendSchoolReqEmail(result.school_email!, result.school_name!);
+    res.status(StatusCodes.OK).json({
+      message: "Account created successfully",
+      data: getMutatedMomgooseField(result._doc),
+    });
   }
-  res.status(StatusCodes.OK).json({ message: "Account created successfully" });
 });
 
 export const loginSchoolAccount = expressAsyncHandler(

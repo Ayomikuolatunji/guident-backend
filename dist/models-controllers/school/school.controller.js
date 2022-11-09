@@ -21,6 +21,7 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const ControllerError_1 = require("../../middleware/ControllerError");
 const school_model_1 = __importDefault(require("./school.model"));
 const SchoolRegEmail_1 = __importDefault(require("../../emails/schools/SchoolRegEmail"));
+const utils_1 = require("../../helpers/utils");
 dotenv_1.default.config();
 exports.createSchoolAccount = (0, express_async_handler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const IfSchoolExits = yield school_model_1.default.findOne({
@@ -34,10 +35,12 @@ exports.createSchoolAccount = (0, express_async_handler_1.default)((req, res) =>
     const school = new school_model_1.default(Object.assign(Object.assign({}, req.body), { admin_password: hashPassword }));
     const result = yield school.save();
     if (result) {
-        const result = yield school.save();
         (0, SchoolRegEmail_1.default)(result.school_email, result.school_name);
+        res.status(http_status_codes_1.StatusCodes.OK).json({
+            message: "Account created successfully",
+            data: (0, utils_1.getMutatedMomgooseField)(result._doc),
+        });
     }
-    res.status(http_status_codes_1.StatusCodes.OK).json({ message: "Account created successfully" });
 }));
 exports.loginSchoolAccount = (0, express_async_handler_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const email = req.body.school_email;
