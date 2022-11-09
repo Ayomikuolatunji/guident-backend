@@ -75,3 +75,7 @@ export const resetSchoolAccountPassword = expressAsyncHandler(
 );
 
 export const updatePassword = expressAsyncHandler(async (req, res, next) => {});
+
+export const updateSchoolEmail = expressAsyncHandler(
+  async (req, res, next) => {}
+);
