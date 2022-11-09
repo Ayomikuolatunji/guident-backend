@@ -30,7 +30,7 @@ export const createSchoolAccount = expressAsyncHandler(async (req, res) => {
     sendSchoolReqEmail(result.school_email!, result.school_name!);
     res.status(StatusCodes.OK).json({
       message: "Account created successfully",
-      data: getMutatedMomgooseField(result._doc),
+      data: getMutatedMomgooseField(result._doc, "admin_password"),
     });
   }
 });
@@ -67,9 +67,16 @@ export const loginSchoolAccount = expressAsyncHandler(
 export const all_createdSchools = expressAsyncHandler(
   async (req, res, next) => {
     const all_schools = await schoolSchema.find({});
+    const schoolArrays = <SchoolSchema><unknown>[];
+    all_schools.forEach((ele) => {
+      const newObj = <SchoolSchema>(
+        getMutatedMomgooseField(ele._doc, "admin_password")
+      );
+      schoolArrays.push(newObj);
+    });
     res
       .status(StatusCodes.OK)
-      .json({ message: "All created school data", all_schools });
+      .json({ message: "All created school data", data: schoolArrays });
   }
 );
 

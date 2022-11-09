@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getMutatedMomgooseField = void 0;
-const getMutatedMomgooseField = (field) => {
+const getMutatedMomgooseField = (field, item) => {
     const newField = Object.assign({}, field);
-    delete newField.password;
+    delete newField[item];
     return newField;
 };
 exports.getMutatedMomgooseField = getMutatedMomgooseField;

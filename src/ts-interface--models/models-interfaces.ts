@@ -7,6 +7,7 @@ interface DocumentResult<T> {
 }
 
 interface SchoolSchema extends mongooseId, DocumentResult<SchoolSchema> {
+  push(newObj: SchoolSchema): unknown;
   school_name: string;
   school_adress: string;
   rc_number: number;
