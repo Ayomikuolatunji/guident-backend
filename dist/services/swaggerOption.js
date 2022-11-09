@@ -15,7 +15,7 @@ const options = {
         },
         servers: [
             {
-                url: process.env.SWAGGER_SERVER,
+                url: `${process.env.SWAGGER_SERVER}/api/v1`,
             },
         ],
     },

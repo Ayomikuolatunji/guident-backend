@@ -1,6 +1,5 @@
 import swaggerJsdoc from "swagger-jsdoc";
 
-
 // swagger UI
 const options = {
   definition: {
@@ -12,7 +11,7 @@ const options = {
     },
     servers: [
       {
-        url: process.env.SWAGGER_SERVER,
+        url: `${process.env.SWAGGER_SERVER}/api/v1`,
       },
     ],
   },
@@ -21,4 +20,4 @@ const options = {
 
 const openapiSpecification = swaggerJsdoc(options);
 
-export default openapiSpecification
+export default openapiSpecification;

@@ -24,7 +24,11 @@ app.use(cors());
 app.use(requestHeaders);
 
 // api documentation server
-app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(openapiSpecification));
+app.use(
+  "/api/v1/api-docs",
+  swaggerUI.serve,
+  swaggerUI.setup(openapiSpecification)
+);
 
 // version 1 api
 app.use("/api", v1Api);

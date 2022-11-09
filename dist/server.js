@@ -33,7 +33,7 @@ app.use((0, cors_1.default)());
 // client request headers
 app.use(requestHeaders_1.default);
 // api documentation server
-app.use("/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swaggerOption_1.default));
+app.use("/api/v1/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swaggerOption_1.default));
 // version 1 api
 app.use("/api", v1Apis_1.default);
 // page not found
