@@ -57,6 +57,7 @@ export const createSchoolProfile = expressAsyncHandler(async (req, res) => {
         admin_lastname: req.body.admin_lastname,
         phone_number: parseInt(req.body.phone_number),
         admin_position: req.body.admin_position,
+        profile_completed: true,
       },
       {
         upsert: true,
@@ -96,6 +97,26 @@ export const loginSchoolAccount = expressAsyncHandler(
     });
   }
 );
+
+export const profileUpdate = expressAsyncHandler(async (req, res, next) => {
+  const school_id = req.query.school_id;
+  const IfSchoolExits: HydratedDocument<SchoolSchema, any, {}> =
+    await schoolSchema.findOne({
+      _id: school_id,
+    });
+  if (!IfSchoolExits)
+    throwError(
+      "Invalid query id was provide",
+      StatusCodes.UNPROCESSABLE_ENTITY
+    );
+
+  res.status(200).json({
+    message: "School status fetched",
+    data: {
+      profileUpdate: IfSchoolExits.profile_completed,
+    },
+  });
+});
 
 export const all_createdSchools = expressAsyncHandler(
   async (req, res, next) => {
