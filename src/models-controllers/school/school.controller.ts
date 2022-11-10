@@ -56,7 +56,7 @@ export const createSchoolProfile = expressAsyncHandler(async (req, res) => {
         admin_firstname: req.body.admin_firstname,
         admin_lastname: req.body.admin_lastname,
         phone_number: parseInt(req.body.phone_number),
-        admin_position: req.body.school_location,
+        admin_position: req.body.admin_position,
       },
       {
         upsert: true,
