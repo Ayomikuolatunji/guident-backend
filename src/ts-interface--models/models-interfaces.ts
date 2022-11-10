@@ -3,22 +3,23 @@ interface mongooseId {
 }
 
 interface DocumentResult<T> {
-  _doc: T;
+  _doc?: T;
 }
 
 interface SchoolSchema extends mongooseId, DocumentResult<SchoolSchema> {
   push(newObj: SchoolSchema): unknown;
-  school_name: string;
-  school_adress: string;
-  rc_number: number;
-  school_logo: string;
-  admin_firstname: string;
-  admin_lastname: string;
-  phone_number: number;
-  school_email: string;
-  admin_position: string;
-  admin_password: string;
+  school_name?: string;
+  school_adress?: string;
+  rc_number?: number;
+  school_logo?: string;
+  admin_firstname?: string;
+  admin_lastname?: string;
+  phone_number?: number;
+  school_email?: string;
+  admin_position?: string;
+  admin_password?: string;
   school_students_parents?: any;
+  profile_completed?: boolean;
 }
 
 interface ParentSchema extends mongooseId, DocumentResult<ParentSchema> {

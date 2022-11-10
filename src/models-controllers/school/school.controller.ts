@@ -21,8 +21,8 @@ export const createSchoolAccount = expressAsyncHandler(async (req, res) => {
   }
   const salt = await bcrypt.genSalt(15);
   const hashPassword = bcrypt.hashSync(req.body.admin_password, salt);
-  const school = new schoolSchema<SchoolSchema>({
-    ...(req.body as SchoolSchema),
+  const school = new schoolSchema({
+    school_email: req.body.school_email,
     admin_password: hashPassword,
   });
   const result = await school.save();
@@ -33,6 +33,37 @@ export const createSchoolAccount = expressAsyncHandler(async (req, res) => {
       data: getMutatedMomgooseField(result._doc, "admin_password"),
     });
   }
+});
+
+export const createSchoolProfile = expressAsyncHandler(async (req, res) => {
+  const school_id = req.query.school_id;
+  // check if school exits with the query id
+  const IfSchoolExits = await schoolSchema.findOne({ _id: school_id });
+  if (!IfSchoolExits)
+    throwError(
+      "Invalid query id was provide",
+      StatusCodes.UNPROCESSABLE_ENTITY
+    );
+  const updateSchoolProfile = await schoolSchema.updateOne(
+    { _id: school_id },
+    {
+      school_name: req.body.school_name,
+      school_adress: req.body.school_adress,
+      rc_number: req.body.rc_number,
+      school_logo: req.body.school_logo,
+      admin_firstname: req.body.admin_firstname,
+      admin_lastname: req.body.admin_lastname,
+      phone_number: parseInt(req.body.phone_number),
+      admin_position: req.body.school_location,
+    },
+    {
+      upsert: true,
+    }
+  );
+  res.status(200).json({
+    message: "Updates profile successfully",
+    data: updateSchoolProfile,
+  });
 });
 
 export const loginSchoolAccount = expressAsyncHandler(
@@ -67,7 +98,7 @@ export const loginSchoolAccount = expressAsyncHandler(
 export const all_createdSchools = expressAsyncHandler(
   async (req, res, next) => {
     const all_schools = await schoolSchema.find({});
-    const schoolArrays = <SchoolSchema><unknown>[];
+    const schoolArrays = <SchoolSchema>(<unknown>[]);
     all_schools.forEach((ele) => {
       const newObj = <SchoolSchema>(
         getMutatedMomgooseField(ele._doc, "admin_password")

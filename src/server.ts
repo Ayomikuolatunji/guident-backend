@@ -25,7 +25,7 @@ app.use(cors());
 // client request headers
 app.use(requestHeaders);
 
-// higher-order function returns false for responses of other status codes (e.g. 403, 404, 500, etc)
+
 
 
 

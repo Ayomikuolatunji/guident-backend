@@ -8,30 +8,37 @@ const schoolSchema = new mongoose.Schema<SchoolSchema>(
   {
     school_name: {
       type: String,
+      default:"",
       require: [true, "school_name is required"],
     },
     school_adress: {
       type: String,
+      default:"",
       require: [true, "school adress is required"],
     },
     rc_number: {
       type: Number,
+      default:"",
       require: [true, "rc number is required"],
     },
     school_logo: {
       type: String,
+      default:"",
       require: [true, "school logo is required"],
     },
     admin_firstname: {
       type: String,
+      default:"",
       require: [true, "admin firstname is required"],
     },
     admin_lastname: {
       type: String,
+      default:"",
       require: [true, "admin lastname is required"],
     },
     phone_number: {
       type: Number,
+      default:"",
       require: [true, "phone number is required"],
     },
     school_email: {
@@ -44,6 +51,7 @@ const schoolSchema = new mongoose.Schema<SchoolSchema>(
     },
     admin_position: {
       type: String,
+      default:"",
       require: [true, "rc number is required"],
     },
     admin_password: {
@@ -57,6 +65,10 @@ const schoolSchema = new mongoose.Schema<SchoolSchema>(
         ref: "Users",
       },
     ],
+    profile_completed: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
@@ -69,44 +81,44 @@ schoolSchema.path("admin_password").validate(function (this: any) {
   return true;
 });
 
-schoolSchema.path("phone_number").validate(function (this: any) {
-  const value = this.phone_number!;
-  if (value === "") {
-    throwError("phone_number should not be empty", 409);
-  }
-  return true;
-});
+// schoolSchema.path("phone_number").validate(function (this: any) {
+//   const value = this.phone_number!;
+//   if (value === "") {
+//     throwError("phone_number should not be empty", 409);
+//   }
+//   return true;
+// });
 
-schoolSchema.path("admin_lastname").validate(function (this: any) {
-  const value = this.admin_lastname!;
-  if (value === "") {
-    throwError("admin last name is required", 409);
-  }
-  return true;
-});
+// schoolSchema.path("admin_lastname").validate(function (this: any) {
+//   const value = this.admin_lastname!;
+//   if (value === "") {
+//     throwError("admin last name is required", 409);
+//   }
+//   return true;
+// });
 
-schoolSchema.path("school_adress").validate(function (this: any) {
-  const value = this.school_adress!;
-  if (value === "") {
-    throwError("school address is required", 409);
-  }
-  return true;
-});
+// schoolSchema.path("school_adress").validate(function (this: any) {
+//   const value = this.school_adress!;
+//   if (value === "") {
+//     throwError("school address is required", 409);
+//   }
+//   return true;
+// });
 
-schoolSchema.path("admin_firstname").validate(function (this: any) {
-  const value = this.admin_firstname!;
-  if (value === "") {
-    throwError("admin first name is required", 409);
-  }
-  return true;
-});
+// schoolSchema.path("admin_firstname").validate(function (this: any) {
+//   const value = this.admin_firstname!;
+//   if (value === "") {
+//     throwError("admin first name is required", 409);
+//   }
+//   return true;
+// });
 
-schoolSchema.path("school_name").validate(function (this: any) {
-  const value = this.school_name!;
-  if (value === "") {
-    throwError("admin first name is required", 409);
-  }
-  return true;
-});
+// schoolSchema.path("school_name").validate(function (this: any) {
+//   const value = this.school_name!;
+//   if (value === "") {
+//     throwError("admin first name is required", 409);
+//   }
+//   return true;
+// });
 
 export default mongoose.model("school", schoolSchema);
