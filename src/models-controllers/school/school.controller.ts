@@ -1,6 +1,7 @@
 import expressAsyncHandler from "express-async-handler";
 import dotenv from "dotenv";
 import { StatusCodes } from "http-status-codes";
+import { HydratedDocument } from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -44,25 +45,26 @@ export const createSchoolProfile = expressAsyncHandler(async (req, res) => {
       "Invalid query id was provide",
       StatusCodes.UNPROCESSABLE_ENTITY
     );
-  const updateSchoolProfile = await schoolSchema.updateOne(
-    { _id: school_id },
-    {
-      school_name: req.body.school_name,
-      school_adress: req.body.school_adress,
-      rc_number: req.body.rc_number,
-      school_logo: req.body.school_logo,
-      admin_firstname: req.body.admin_firstname,
-      admin_lastname: req.body.admin_lastname,
-      phone_number: parseInt(req.body.phone_number),
-      admin_position: req.body.school_location,
-    },
-    {
-      upsert: true,
-    }
-  );
+  const updateSchoolProfile: HydratedDocument<SchoolSchema, any, {}> =
+    await schoolSchema.updateOne(
+      { _id: school_id },
+      {
+        school_name: req.body.school_name,
+        school_adress: req.body.school_adress,
+        rc_number: req.body.rc_number,
+        school_logo: req.body.school_logo,
+        admin_firstname: req.body.admin_firstname,
+        admin_lastname: req.body.admin_lastname,
+        phone_number: parseInt(req.body.phone_number),
+        admin_position: req.body.school_location,
+      },
+      {
+        upsert: true,
+      }
+    );
   res.status(200).json({
-    message: "Updates profile successfully",
-    data: updateSchoolProfile,
+    message: "Profile updated successfully",
+    data: updateSchoolProfile._doc,
   });
 });
 
