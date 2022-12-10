@@ -1,5 +1,11 @@
-export const getMutatedMongooseField = (field: any, item: string) => {
-  const newField: any = { ...field };
-  delete newField[item];
-  return newField;
+import bcrypt from "bcrypt";
+
+type removeItemType = {
+  item: string;
 };
+export const getMutatedMongooseField = <T extends removeItemType>(field: T) => {
+  const { item, ...otherValue } = field;
+  return otherValue;
+};
+
+export const salt = async () => <string>await bcrypt.genSalt(15);

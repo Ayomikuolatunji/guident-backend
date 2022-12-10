@@ -19,7 +19,7 @@ router.post("/login_school/", loginSchoolAccount);
 
 router.patch("/reset_school_password/", resetSchoolAccountPassword);
 
-router.get("/all_schools/", cacheSuccesses, all_createdSchools);
+router.get("/all_schools/", authToken, cacheSuccesses, all_createdSchools);
 
 router.get("/update_school_profile/", authToken, profileUpdate);
 

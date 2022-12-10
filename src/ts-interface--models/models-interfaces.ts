@@ -9,11 +9,11 @@ interface DocumentResult<T> {
 interface SchoolSchema extends mongooseId, DocumentResult<SchoolSchema> {
   push(newObj: SchoolSchema): unknown;
   school_name?: string;
-  school_adress?: string;
+  school_address?: string;
   rc_number?: number;
   school_logo?: string;
-  admin_firstname?: string;
-  admin_lastname?: string;
+  admin_first_name?: string;
+  admin_last_name?: string;
   phone_number?: number;
   school_email?: string;
   admin_position?: string;

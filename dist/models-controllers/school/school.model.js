@@ -11,9 +11,9 @@ const schoolSchema = new mongoose_1.default.Schema({
         type: String,
         require: [true, "school_name is required"],
     },
-    school_adress: {
+    school_address: {
         type: String,
-        require: [true, "school adress is required"],
+        require: [true, "school address is required"],
     },
     rc_number: {
         type: Number,
@@ -23,11 +23,11 @@ const schoolSchema = new mongoose_1.default.Schema({
         type: String,
         require: [true, "school logo is required"],
     },
-    admin_firstname: {
+    admin_first_name: {
         type: String,
         require: [true, "admin firstname is required"],
     },
-    admin_lastname: {
+    admin_last_name: {
         type: String,
         require: [true, "admin lastname is required"],
     },
@@ -73,22 +73,22 @@ schoolSchema.path("phone_number").validate(function () {
     }
     return true;
 });
-schoolSchema.path("admin_lastname").validate(function () {
-    const value = this.admin_lastname;
+schoolSchema.path("admin_last_name").validate(function () {
+    const value = this.admin_last_name;
     if (value === "") {
         (0, ControllerError_1.throwError)("admin last name is required", 409);
     }
     return true;
 });
-schoolSchema.path("school_adress").validate(function () {
-    const value = this.school_adress;
+schoolSchema.path("school_address").validate(function () {
+    const value = this.school_address;
     if (value === "") {
         (0, ControllerError_1.throwError)("school address is required", 409);
     }
     return true;
 });
-schoolSchema.path("admin_firstname").validate(function () {
-    const value = this.admin_firstname;
+schoolSchema.path("admin_first_name").validate(function () {
+    const value = this.admin_first_name;
     if (value === "") {
         (0, ControllerError_1.throwError)("admin first name is required", 409);
     }

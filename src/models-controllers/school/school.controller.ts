@@ -9,52 +9,71 @@ import { throwError } from "../../middleware/ControllerError";
 import schoolSchema from "./school.model";
 import { SchoolSchema } from "../../ts-interface--models/models-interfaces";
 import sendSchoolReqEmail from "../../emails/schools/SchoolRegEmail";
-import { getMutatedMongooseField } from "../../helpers/utils";
+import { getMutatedMongooseField, salt } from "../../helpers/utils";
 
 dotenv.config();
 
-export const createSchoolAccount = expressAsyncHandler(async (req, res) => {
-  const IfSchoolExits = await schoolSchema.findOne<SchoolSchema>({
-    school_email: req.body.school_email,
-  });
-  if (IfSchoolExits) {
-    throwError("School already created with the email provided", 409);
-  }
-  const salt = await bcrypt.genSalt(15);
-  const hashPassword = bcrypt.hashSync(req.body.admin_password, salt);
-  const school = new schoolSchema({
-    school_email: req.body.school_email,
-    admin_password: hashPassword,
-  });
-  const result = await school.save();
-  if (result) {
-    sendSchoolReqEmail(result.school_email!, result.school_name!);
+export const createSchoolAccount = expressAsyncHandler(
+  async (req, res, next) => {
+    const password = req.body.admin_password as string;
+    const IfSchoolExits = await schoolSchema.findOne<SchoolSchema>({
+      school_email: req.body.school_email,
+    });
+    if (IfSchoolExits) {
+      throwError("School already exist", StatusCodes.UNPROCESSABLE_ENTITY);
+    } else if (password === "") {
+      throwError("password is required", StatusCodes.UNPROCESSABLE_ENTITY);
+    } else if (password.length < 8) {
+      throwError(
+        "Password must be 8 characters long",
+        StatusCodes.UNPROCESSABLE_ENTITY
+      );
+    }
+    const hashPassword = bcrypt.hashSync(password, await salt());
+    const school = new schoolSchema({
+      school_email: req.body.school_email,
+      admin_password: hashPassword,
+    });
+    const result = await school.save();
+    sendSchoolReqEmail(result.school_email!!, result.school_name!!);
     res.status(StatusCodes.OK).json({
       message: "Account created successfully",
-      data: getMutatedMongooseField(result._doc, "admin_password"),
+      data: getMutatedMongooseField({
+        field: result._doc!,
+        item: "admin_password",
+      }),
     });
   }
-});
+);
 
 export const createSchoolProfile = expressAsyncHandler(async (req, res) => {
   const school_id = req.query.school_id;
-  // check if school exits with the query id
   const IfSchoolExits = await schoolSchema.findOne({ _id: school_id });
   if (!IfSchoolExits)
-    throwError(
-      "Invalid query id was provide",
-      StatusCodes.UNPROCESSABLE_ENTITY
-    );
+    throwError("Invalid id was provide", StatusCodes.UNPROCESSABLE_ENTITY);
+  if (!req.body.school_name)
+    throwError("school_name", StatusCodes.UNPROCESSABLE_ENTITY);
+  else if (!req.body.rc_number)
+    throwError("RC number required", StatusCodes.UNPROCESSABLE_ENTITY);
+  else if (!req.body.school_logo)
+    throwError("School logo is required", StatusCodes.UNPROCESSABLE_ENTITY);
+  else if (!req.body.admin_first_name)
+    throwError("Admin first name", StatusCodes.UNPROCESSABLE_ENTITY);
+  else if (!req.body.phone_number)
+    throwError("Admin phone number", StatusCodes.UNPROCESSABLE_ENTITY);
+  else if (!req.body.admin_position)
+    throwError("Admin position required", StatusCodes.UNPROCESSABLE_ENTITY);
+
   const updateSchoolProfile: HydratedDocument<SchoolSchema, any, {}> =
     await schoolSchema.updateOne(
       { _id: school_id },
       {
         school_name: req.body.school_name,
-        school_adress: req.body.school_adress,
+        school_address: req.body.school_address,
         rc_number: req.body.rc_number,
         school_logo: req.body.school_logo,
-        admin_firstname: req.body.admin_firstname,
-        admin_lastname: req.body.admin_lastname,
+        admin_first_name: req.body.admin_first_name,
+        admin_last_name: req.body.admin_last_name,
         phone_number: parseInt(req.body.phone_number),
         admin_position: req.body.admin_position,
         profile_completed: true,
@@ -120,12 +139,13 @@ export const profileUpdate = expressAsyncHandler(async (req, res, next) => {
 export const all_createdSchools = expressAsyncHandler(
   async (req, res, next) => {
     const all_schools = await schoolSchema.find({});
-    const schoolArrays = <SchoolSchema>(<unknown>[]);
+    const schoolArrays: SchoolSchema[] = [];
     all_schools.forEach((ele) => {
-      const newObj = <SchoolSchema>(
-        getMutatedMongooseField(ele._doc, "admin_password")
-      );
-      schoolArrays.push(newObj);
+      const newObj = getMutatedMongooseField({
+        field: ele._doc!,
+        item: "admin_password",
+      });
+      schoolArrays.push(newObj as any);
     });
     res
       .status(StatusCodes.OK)

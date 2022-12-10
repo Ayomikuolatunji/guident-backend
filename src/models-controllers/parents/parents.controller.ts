@@ -19,6 +19,7 @@ export const createParentStudentAccount = expressAsyncHandler(
     });
     if (!findSchool) {
       throwError("You need to provide valid the school _id", 404);
+      next();
     }
     let _id: string = "";
     const parentStudentAccount = new parentSchema<ParentSchema>({
