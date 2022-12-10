@@ -38,7 +38,7 @@ exports.createSchoolAccount = (0, express_async_handler_1.default)((req, res) =>
         (0, SchoolRegEmail_1.default)(result.school_email, result.school_name);
         res.status(http_status_codes_1.StatusCodes.OK).json({
             message: "Account created successfully",
-            data: (0, utils_1.getMutatedMomgooseField)(result._doc, "admin_password"),
+            data: (0, utils_1.getMutatedMongooseField)(result._doc, "admin_password"),
         });
     }
 }));
@@ -65,7 +65,7 @@ exports.all_createdSchools = (0, express_async_handler_1.default)((req, res, nex
     const all_schools = yield school_model_1.default.find({});
     const schoolArrays = [];
     all_schools.forEach((ele) => {
-        const newObj = ((0, utils_1.getMutatedMomgooseField)(ele._doc, "admin_password"));
+        const newObj = ((0, utils_1.getMutatedMongooseField)(ele._doc, "admin_password"));
         schoolArrays.push(newObj);
     });
     res

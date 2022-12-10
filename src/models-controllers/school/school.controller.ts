@@ -9,7 +9,7 @@ import { throwError } from "../../middleware/ControllerError";
 import schoolSchema from "./school.model";
 import { SchoolSchema } from "../../ts-interface--models/models-interfaces";
 import sendSchoolReqEmail from "../../emails/schools/SchoolRegEmail";
-import { getMutatedMomgooseField } from "../../helpers/utils";
+import { getMutatedMongooseField } from "../../helpers/utils";
 
 dotenv.config();
 
@@ -31,7 +31,7 @@ export const createSchoolAccount = expressAsyncHandler(async (req, res) => {
     sendSchoolReqEmail(result.school_email!, result.school_name!);
     res.status(StatusCodes.OK).json({
       message: "Account created successfully",
-      data: getMutatedMomgooseField(result._doc, "admin_password"),
+      data: getMutatedMongooseField(result._doc, "admin_password"),
     });
   }
 });
@@ -109,7 +109,6 @@ export const profileUpdate = expressAsyncHandler(async (req, res, next) => {
       "Invalid query id was provide",
       StatusCodes.UNPROCESSABLE_ENTITY
     );
-
   res.status(200).json({
     message: "School status fetched",
     data: {
@@ -124,7 +123,7 @@ export const all_createdSchools = expressAsyncHandler(
     const schoolArrays = <SchoolSchema>(<unknown>[]);
     all_schools.forEach((ele) => {
       const newObj = <SchoolSchema>(
-        getMutatedMomgooseField(ele._doc, "admin_password")
+        getMutatedMongooseField(ele._doc, "admin_password")
       );
       schoolArrays.push(newObj);
     });
