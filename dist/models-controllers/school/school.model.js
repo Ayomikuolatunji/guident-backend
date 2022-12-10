@@ -4,35 +4,40 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
-// import jsonwebtoken from "jsonwebtoken"
-const ControllerError_1 = require("../../middleware/ControllerError");
 const schoolSchema = new mongoose_1.default.Schema({
     school_name: {
         type: String,
+        default: "",
         require: [true, "school_name is required"],
     },
     school_address: {
         type: String,
+        default: "",
         require: [true, "school address is required"],
     },
     rc_number: {
         type: Number,
+        default: "",
         require: [true, "rc number is required"],
     },
     school_logo: {
         type: String,
+        default: "",
         require: [true, "school logo is required"],
     },
     admin_first_name: {
         type: String,
+        default: "",
         require: [true, "admin firstname is required"],
     },
     admin_last_name: {
         type: String,
+        default: "",
         require: [true, "admin lastname is required"],
     },
     phone_number: {
         type: Number,
+        default: "",
         require: [true, "phone number is required"],
     },
     school_email: {
@@ -45,6 +50,12 @@ const schoolSchema = new mongoose_1.default.Schema({
     },
     admin_position: {
         type: String,
+        default: "",
+        require: [true, "rc number is required"],
+    },
+    otp: {
+        type: String,
+        default: "",
         require: [true, "rc number is required"],
     },
     admin_password: {
@@ -58,47 +69,9 @@ const schoolSchema = new mongoose_1.default.Schema({
             ref: "Users",
         },
     ],
+    profile_completed: {
+        type: Boolean,
+        default: false,
+    },
 }, { timestamps: true });
-schoolSchema.path("admin_password").validate(function () {
-    const value = this.admin_password;
-    if (value === "") {
-        (0, ControllerError_1.throwError)("Password should not be empty", 409);
-    }
-    return true;
-});
-schoolSchema.path("phone_number").validate(function () {
-    const value = this.phone_number;
-    if (value === "") {
-        (0, ControllerError_1.throwError)("phone_number should not be empty", 409);
-    }
-    return true;
-});
-schoolSchema.path("admin_last_name").validate(function () {
-    const value = this.admin_last_name;
-    if (value === "") {
-        (0, ControllerError_1.throwError)("admin last name is required", 409);
-    }
-    return true;
-});
-schoolSchema.path("school_address").validate(function () {
-    const value = this.school_address;
-    if (value === "") {
-        (0, ControllerError_1.throwError)("school address is required", 409);
-    }
-    return true;
-});
-schoolSchema.path("admin_first_name").validate(function () {
-    const value = this.admin_first_name;
-    if (value === "") {
-        (0, ControllerError_1.throwError)("admin first name is required", 409);
-    }
-    return true;
-});
-schoolSchema.path("school_name").validate(function () {
-    const value = this.school_name;
-    if (value === "") {
-        (0, ControllerError_1.throwError)("admin first name is required", 409);
-    }
-    return true;
-});
 exports.default = mongoose_1.default.model("school", schoolSchema);

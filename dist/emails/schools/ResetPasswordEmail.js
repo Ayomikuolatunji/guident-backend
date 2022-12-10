@@ -4,17 +4,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const transporter_1 = __importDefault(require("../transporter"));
-const sendSchoolReqEmail = (email, name) => {
+const resetSchoolPassword = (email, name, otp) => {
     const mailOptions = {
         from: "guident.team@gmail.com",
         to: email,
         subject: "Ayoscript from guident",
-        text: `Hello ${name} your school account with this ${email} was createdfully successfully`,
+        text: `Reset Account Password`,
         html: `
         <div style"display:'block',width:'100%'">
              <div>
-                 <h1>Welcome to guident</h1>
-                 <p>Hello ${name} your school account with this ${email} was created successfully</p>
+                 <h1>Welcome to guident education platform</h1>
+                 <h3>Hello ${name}  </h3>
+                 <p>One time otp is ${otp}</p>
              </div>
         </div>
     `,
@@ -30,4 +31,4 @@ const sendSchoolReqEmail = (email, name) => {
     });
     //
 };
-exports.default = sendSchoolReqEmail;
+exports.default = resetSchoolPassword;

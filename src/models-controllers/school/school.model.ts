@@ -54,6 +54,11 @@ const schoolSchema = new mongoose.Schema<SchoolSchema>(
       default: "",
       require: [true, "rc number is required"],
     },
+    otp: {
+      type: String,
+      default: "",
+      require: [true, "rc number is required"],
+    },
     admin_password: {
       type: String,
       require: [true, "password field is empty"],
@@ -72,6 +77,5 @@ const schoolSchema = new mongoose.Schema<SchoolSchema>(
   },
   { timestamps: true }
 );
-
 
 export default mongoose.model("school", schoolSchema);

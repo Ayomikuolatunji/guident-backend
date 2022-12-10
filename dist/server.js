@@ -32,7 +32,6 @@ app.use(body_parser_1.default.json());
 app.use((0, cors_1.default)());
 // client request headers
 app.use(requestHeaders_1.default);
-// higher-order function returns false for responses of other status codes (e.g. 403, 404, 500, etc)
 // api documentation server
 app.use("/api/v1/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swaggerOption_1.default));
 // version 1 api

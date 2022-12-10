@@ -10,6 +10,8 @@ import schoolSchema from "./school.model";
 import { SchoolSchema } from "../../ts-interface--models/models-interfaces";
 import sendSchoolReqEmail from "../../emails/schools/SchoolRegEmail";
 import { getMutatedMongooseField, salt } from "../../helpers/utils";
+import resetSchoolPassword from "../../emails/schools/ResetPasswordEmail";
+import { generateOTP } from "../../helpers/opt-generator";
 
 dotenv.config();
 
@@ -104,7 +106,7 @@ export const loginSchoolAccount = expressAsyncHandler(
     }
     const token = jwt.sign(
       {
-        school_email: loginSchool?.school_email,
+        email: loginSchool?.school_email,
         id: loginSchool?._id!.toString(),
       },
       `${process.env.JWT_SECRET_KEY}`,
@@ -154,11 +156,35 @@ export const all_createdSchools = expressAsyncHandler(
 );
 
 export const resetSchoolAccountPassword = expressAsyncHandler(
-  (req, res, next) => {}
+  async (req, res, next) => {
+    const schoolEmail = req.body.school_email;
+    if (!schoolEmail)
+      throwError(
+        "school email is not provided",
+        StatusCodes.UNPROCESSABLE_ENTITY
+      );
+    const findSchool = await schoolSchema.findOne({
+      school_email: schoolEmail,
+    });
+
+    if (!findSchool)
+      throwError(
+        "School does not exist with the email provided",
+        StatusCodes.UNPROCESSABLE_ENTITY
+      );
+    const otp = generateOTP();
+    await schoolSchema.updateOne(
+      { school_email: schoolEmail },
+      { otp:otp }
+    );
+    resetSchoolPassword(
+      findSchool?.school_email!,
+      findSchool?.school_name!,
+      otp
+    );
+
+    res.status(StatusCodes.OK).json({ message: "Opt send successfully" });
+  }
 );
 
 export const updatePassword = expressAsyncHandler(async (req, res, next) => {});
-
-export const updateSchoolEmail = expressAsyncHandler(
-  async (req, res, next) => {}
-);

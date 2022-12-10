@@ -28,6 +28,7 @@ exports.createParentStudentAccount = (0, express_async_handler_1.default)((req, 
     });
     if (!findSchool) {
         (0, ControllerError_1.throwError)("You need to provide valid the school _id", 404);
+        next();
     }
     let _id = "";
     const parentStudentAccount = new parents_model_1.default(Object.assign({}, req.body));

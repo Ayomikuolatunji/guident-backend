@@ -57,7 +57,7 @@ export const loginParents = expressAsyncHandler(async (req, res, next) => {
   }
   const token = jwt.sign(
     {
-      parent_email: findOne?.parent_name,
+      email: findOne?.parent_name,
       id: findOne?._id!.toString(),
     },
     `${process.env.JWT_SECRET_KEY}`,

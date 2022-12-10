@@ -1,16 +1,17 @@
 import transporter from "../transporter";
 
-const sendSchoolReqEmail = (email: string, name: string) => {
+const resetSchoolPassword = (email: string, name: string, otp: string) => {
   const mailOptions = {
     from: "guident.team@gmail.com",
     to: email,
     subject: "Ayoscript from guident",
-    text: `Hello ${name} your school account with this ${email} was createdfully successfully`,
+    text: `Reset Account Password`,
     html: `
         <div style"display:'block',width:'100%'">
              <div>
-                 <h1>Welcome to guident</h1>
-                 <p>Hello ${name} your school account with this ${email} was created successfully</p>
+                 <h1>Your one time OTP</h1>
+                 <h3>Hello ${name}  </h3>
+                 <p>One time otp is ${otp}</p>
              </div>
         </div>
     `,
@@ -26,4 +27,4 @@ const sendSchoolReqEmail = (email: string, name: string) => {
   //
 };
 
-export default sendSchoolReqEmail;
+export default resetSchoolPassword;
