@@ -5,7 +5,7 @@ import { throwError } from "./ControllerError";
 
 export default (req: Request | any, res: Response, next: NextFunction) => {
   try {
-    const authHeader = req.get("Authorization")!;
+    const authHeader = req.get("Authorization");
     if (!authHeader) {
       throwError("No token provided", 401);
     }

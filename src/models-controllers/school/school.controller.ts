@@ -226,9 +226,10 @@ export const updateSchoolPassword = expressAsyncHandler(
       tokenVerification: true,
     });
     if (!findbyOtp) throwError("Not allowed", StatusCodes.NOT_ACCEPTABLE);
+    const hashPassword = bcrypt.hashSync(newSchoolPasswod, await salt());
     await schoolSchema.updateOne(
       { otp: otp },
-      { tokenVerification: false, otp: "", admin_password: newSchoolPasswod },
+      { tokenVerification: false, otp: "", admin_password: hashPassword },
       {
         upsert: true,
       }
