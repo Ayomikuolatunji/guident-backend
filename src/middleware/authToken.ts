@@ -5,7 +5,7 @@ import { throwError } from "./ControllerError";
 
 export default (req: Request | any, res: Response, next: NextFunction) => {
   try {
-    const authHeader = req.get("Authorization");
+    const authHeader = req.get("Authorization")!;
     if (!authHeader) {
       throwError("No token provided", 401);
     }
@@ -15,7 +15,7 @@ export default (req: Request | any, res: Response, next: NextFunction) => {
     if (!token || !decode) {
       throwError("Invalid token", 401);
     }
-    req.id = decode?.id;
+    req.id = decode.id;
     next();
   } catch (error) {
     const errorResponse: Error = new Error("Not authorized");

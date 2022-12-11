@@ -11,7 +11,7 @@ const resetSchoolPassword = (email: string, name: string, otp: string) => {
              <div>
                  <h1>Your one time OTP</h1>
                  <h3>Hello ${name}  </h3>
-                 <p>One time otp is ${otp}</p>
+                 <h1>One time otp is <span style="font-size:40px">${otp}</span> </h1>
              </div>
         </div>
     `,
