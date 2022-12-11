@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updatePassword = exports.resetSchoolAccountPassword = exports.all_createdSchools = exports.profileUpdate = exports.loginSchoolAccount = exports.createSchoolProfile = exports.createSchoolAccount = void 0;
+exports.updateSchoolPassword = exports.verifyAccount = exports.resetSchoolAccountPassword = exports.all_createdSchools = exports.profileUpdate = exports.loginSchoolAccount = exports.createSchoolProfile = exports.createSchoolAccount = void 0;
 const express_async_handler_1 = __importDefault(require("express-async-handler"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const http_status_codes_1 = require("http-status-codes");
@@ -22,13 +22,16 @@ const ControllerError_1 = require("../../middleware/ControllerError");
 const school_model_1 = __importDefault(require("./school.model"));
 const SchoolRegEmail_1 = __importDefault(require("../../emails/schools/SchoolRegEmail"));
 const utils_1 = require("../../helpers/utils");
-// import { generateOTP } from "../../helpers/opt-generator";
+const ResetPasswordEmail_1 = __importDefault(require("../../emails/schools/ResetPasswordEmail"));
+const opt_generator_1 = require("../../helpers/opt-generator");
 dotenv_1.default.config();
 exports.createSchoolAccount = (0, express_async_handler_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const password = req.body.admin_password;
-    const IfSchoolExits = yield school_model_1.default.findOne({
+    const IfSchoolExits = yield school_model_1.default
+        .findOne({
         school_email: req.body.school_email,
-    });
+    })
+        .exec();
     if (IfSchoolExits) {
         (0, ControllerError_1.throwError)("School already exist", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
     }
@@ -54,10 +57,13 @@ exports.createSchoolAccount = (0, express_async_handler_1.default)((req, res, ne
     });
 }));
 exports.createSchoolProfile = (0, express_async_handler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     const school_id = req.query.school_id;
     const IfSchoolExits = yield school_model_1.default.findOne({ _id: school_id });
     if (!IfSchoolExits)
         (0, ControllerError_1.throwError)("Invalid id was provide", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
+    else if ((IfSchoolExits === null || IfSchoolExits === void 0 ? void 0 : IfSchoolExits._id.toString()) !== ((_a = req.id) === null || _a === void 0 ? void 0 : _a.toString()))
+        (0, ControllerError_1.throwError)("You are not authorized", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
     if (!req.body.school_name)
         (0, ControllerError_1.throwError)("school_name", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
     else if (!req.body.rc_number)
@@ -92,14 +98,16 @@ exports.loginSchoolAccount = (0, express_async_handler_1.default)((req, res, nex
     const email = req.body.school_email;
     const admin_password = req.body.admin_password;
     const loginSchool = yield school_model_1.default.findOne({
-        email: email,
+        school_email: email,
     });
+    if (!loginSchool)
+        (0, ControllerError_1.throwError)("Invalid email or password", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
     const comparePassword = bcrypt_1.default.compareSync(admin_password, loginSchool === null || loginSchool === void 0 ? void 0 : loginSchool.admin_password);
     if (!comparePassword) {
         (0, ControllerError_1.throwError)("Invalid email or password", http_status_codes_1.StatusCodes.BAD_REQUEST);
     }
     const token = jsonwebtoken_1.default.sign({
-        school_email: loginSchool === null || loginSchool === void 0 ? void 0 : loginSchool.school_email,
+        email: loginSchool === null || loginSchool === void 0 ? void 0 : loginSchool.school_email,
         id: loginSchool === null || loginSchool === void 0 ? void 0 : loginSchool._id.toString(),
     }, `${process.env.JWT_SECRET_KEY}`, { expiresIn: "30d" });
     res.status(http_status_codes_1.StatusCodes.OK).json({
@@ -137,18 +145,51 @@ exports.all_createdSchools = (0, express_async_handler_1.default)((req, res, nex
 }));
 exports.resetSchoolAccountPassword = (0, express_async_handler_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const schoolEmail = req.body.school_email;
+    if (!schoolEmail)
+        (0, ControllerError_1.throwError)("school email is not provided", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
     const findSchool = yield school_model_1.default.findOne({
         school_email: schoolEmail,
     });
-    if (schoolEmail)
-        (0, ControllerError_1.throwError)("school email is not provided", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
-    else if (!findSchool)
+    if (!findSchool)
         (0, ControllerError_1.throwError)("School does not exist with the email provided", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
-    // resetSchoolPassword(
-    //   findSchool?.school_email!,
-    //   findSchool?.school_name!,
-    //   generateOTP()
-    // );
-    res.status(http_status_codes_1.StatusCodes.OK).json({ message: "Opt send successfully" });
+    const otp = (0, opt_generator_1.generateOTP)();
+    yield school_model_1.default.updateOne({ school_email: schoolEmail }, { otp: otp });
+    (0, ResetPasswordEmail_1.default)(findSchool === null || findSchool === void 0 ? void 0 : findSchool.school_email, findSchool === null || findSchool === void 0 ? void 0 : findSchool.school_name, otp);
+    res.status(http_status_codes_1.StatusCodes.OK).json({ message: "Opt sent successfully" });
 }));
-exports.updatePassword = (0, express_async_handler_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () { }));
+exports.verifyAccount = (0, express_async_handler_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const otp = req.body.otp;
+    const findAccountByOtp = yield school_model_1.default
+        .findOne({
+        otp: otp,
+    })
+        .exec();
+    if (!otp)
+        (0, ControllerError_1.throwError)("Token not provided or invalid token", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
+    if (!findAccountByOtp)
+        (0, ControllerError_1.throwError)("Request a new token", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
+    const dateElapseTime = (0, utils_1.diff_minutes)(findAccountByOtp === null || findAccountByOtp === void 0 ? void 0 : findAccountByOtp.updatedAt, new Date());
+    if (dateElapseTime > 2) {
+        (0, ControllerError_1.throwError)("Token expired, try again", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
+    }
+    else {
+        yield school_model_1.default.updateOne({ opt: otp }, { tokenVerification: true });
+    }
+    res
+        .status(http_status_codes_1.StatusCodes.OK)
+        .json({ message: "You are verified to reset password", otp });
+}));
+exports.updateSchoolPassword = (0, express_async_handler_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const otp = req.query.otp;
+    const newSchoolPasswod = req.body.admin_password;
+    const findbyOtp = yield school_model_1.default.findOne({
+        otp: otp,
+        tokenVerification: true,
+    });
+    if (!findbyOtp)
+        (0, ControllerError_1.throwError)("Not allowed", http_status_codes_1.StatusCodes.NOT_ACCEPTABLE);
+    yield school_model_1.default.updateOne({ otp: otp }, { tokenVerification: false, otp: "", admin_password: newSchoolPasswod }, {
+        upsert: true,
+    });
+    res.status(200).json({ message: "Password updated successfully" });
+}));

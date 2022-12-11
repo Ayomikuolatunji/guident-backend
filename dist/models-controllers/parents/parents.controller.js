@@ -57,7 +57,7 @@ exports.loginParents = (0, express_async_handler_1.default)((req, res, next) => 
         (0, ControllerError_1.throwError)("Invalid email or password", http_status_codes_1.StatusCodes.BAD_REQUEST);
     }
     const token = jsonwebtoken_1.default.sign({
-        parent_email: findOne === null || findOne === void 0 ? void 0 : findOne.parent_name,
+        email: findOne === null || findOne === void 0 ? void 0 : findOne.parent_name,
         id: findOne === null || findOne === void 0 ? void 0 : findOne._id.toString(),
     }, `${process.env.JWT_SECRET_KEY}`, { expiresIn: "30d" });
     res.status(http_status_codes_1.StatusCodes.OK).json({

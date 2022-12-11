@@ -23,7 +23,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.salt = exports.getMutatedMongooseField = void 0;
+exports.diff_minutes = exports.salt = exports.getMutatedMongooseField = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const getMutatedMongooseField = (field) => {
     const { item } = field, otherValue = __rest(field, ["item"]);
@@ -32,3 +32,9 @@ const getMutatedMongooseField = (field) => {
 exports.getMutatedMongooseField = getMutatedMongooseField;
 const salt = () => __awaiter(void 0, void 0, void 0, function* () { return yield bcrypt_1.default.genSalt(15); });
 exports.salt = salt;
+function diff_minutes(dt2, dt1) {
+    var diff = (dt2.getTime() - dt1.getTime()) / 1000;
+    diff /= 60;
+    return Math.abs(Math.round(diff));
+}
+exports.diff_minutes = diff_minutes;

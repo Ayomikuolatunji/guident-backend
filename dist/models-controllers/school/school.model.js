@@ -58,6 +58,10 @@ const schoolSchema = new mongoose_1.default.Schema({
         default: "",
         require: [true, "rc number is required"],
     },
+    tokenVerification: {
+        type: Boolean,
+        default: false,
+    },
     admin_password: {
         type: String,
         require: [true, "password field is empty"],

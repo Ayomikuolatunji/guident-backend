@@ -17,7 +17,7 @@ exports.default = (req, res, next) => {
         if (!token || !decode) {
             (0, ControllerError_1.throwError)("Invalid token", 401);
         }
-        req.id = decode === null || decode === void 0 ? void 0 : decode.id;
+        req.id = decode.id;
         next();
     }
     catch (error) {

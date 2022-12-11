@@ -22,11 +22,12 @@ const mongoDbConnection = () => __awaiter(void 0, void 0, void 0, function* () {
         console.log("mongoose key not set");
     }
     else {
-        console.log('connected to the database');
+        console.log("connected to the database");
+        mongoose_1.default.set("strictQuery", true);
         return yield mongoose_1.default.connect(MONGODB_KEY, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
-            serverApi: mongodb_1.ServerApiVersion.v1
+            serverApi: mongodb_1.ServerApiVersion.v1,
         });
     }
 });

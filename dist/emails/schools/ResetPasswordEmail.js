@@ -13,9 +13,9 @@ const resetSchoolPassword = (email, name, otp) => {
         html: `
         <div style"display:'block',width:'100%'">
              <div>
-                 <h1>Welcome to guident education platform</h1>
+                 <h1>Your one time OTP</h1>
                  <h3>Hello ${name}  </h3>
-                 <p>One time otp is ${otp}</p>
+                 <h1>One time otp is <span style="font-size:40px">${otp}</span> </h1>
              </div>
         </div>
     `,
