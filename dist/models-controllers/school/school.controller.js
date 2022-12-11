@@ -181,14 +181,15 @@ exports.verifyAccount = (0, express_async_handler_1.default)((req, res, next) =>
 }));
 exports.updateSchoolPassword = (0, express_async_handler_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const otp = req.query.otp;
-    const newSchoolPasswod = req.body.admin_password;
+    const newSchoolPassword = req.body.admin_password;
     const findbyOtp = yield school_model_1.default.findOne({
         otp: otp,
         tokenVerification: true,
     });
     if (!findbyOtp)
         (0, ControllerError_1.throwError)("Not allowed", http_status_codes_1.StatusCodes.NOT_ACCEPTABLE);
-    yield school_model_1.default.updateOne({ otp: otp }, { tokenVerification: false, otp: "", admin_password: newSchoolPasswod }, {
+    const hashPassword = bcrypt_1.default.hashSync(newSchoolPassword, yield (0, utils_1.salt)());
+    yield school_model_1.default.updateOne({ otp: otp }, { tokenVerification: false, otp: "", admin_password: hashPassword }, {
         upsert: true,
     });
     res.status(200).json({ message: "Password updated successfully" });

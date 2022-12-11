@@ -4,7 +4,6 @@ import { StatusCodes } from "http-status-codes";
 import { HydratedDocument } from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import dayjs from "dayjs";
 import { throwError } from "../../middleware/ControllerError";
 import schoolSchema from "./school.model";
 import { SchoolSchema } from "../../ts-interface--models/models-interfaces";
@@ -220,13 +219,13 @@ export const verifyAccount = expressAsyncHandler(async (req, res, next) => {
 export const updateSchoolPassword = expressAsyncHandler(
   async (req, res, next) => {
     const otp = req.query.otp;
-    const newSchoolPasswod = req.body.admin_password;
+    const newSchoolPassword = req.body.admin_password;
     const findbyOtp = await schoolSchema.findOne({
       otp: otp,
       tokenVerification: true,
     });
     if (!findbyOtp) throwError("Not allowed", StatusCodes.NOT_ACCEPTABLE);
-    const hashPassword = bcrypt.hashSync(newSchoolPasswod, await salt());
+    const hashPassword = bcrypt.hashSync(newSchoolPassword, await salt());
     await schoolSchema.updateOne(
       { otp: otp },
       { tokenVerification: false, otp: "", admin_password: hashPassword },
