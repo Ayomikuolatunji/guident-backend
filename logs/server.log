@@ -95,3 +95,12 @@ info: Dec-18-2022 00:09:37: 	Server started and running on  8080
 error: Dec-18-2022 00:10:11: 	422 - Unprocessable Entity - You are not authorized - /api/v1/complete_school_profile/?school_id=639e4b54bbde0ef37715f524 - PATCH - ::1
 error: Dec-18-2022 00:10:33: 	422 - Unprocessable Entity - Please verify your email address, or you contact guident customer care - /api/v1/complete_school_profile/?school_id=639e4b54bbde0ef37715f524 - PATCH - ::1
 error: Dec-18-2022 00:11:36: 	422 - Unprocessable Entity - You are not authorized - /api/v1/verify_email_account/ - PATCH - ::1
+info: Dec-18-2022 00:21:47: 	Server started and running on  8080
+info: Dec-18-2022 00:22:02: 	Server started and running on  8080
+info: Dec-18-2022 00:22:05: 	Server started and running on  8080
+info: Dec-18-2022 00:22:26: 	Server started and running on  8080
+info: Dec-18-2022 00:22:32: 	Server started and running on  8080
+info: Dec-18-2022 00:22:47: 	Server started and running on  8080
+info: Dec-18-2022 00:23:06: 	Server started and running on  8080
+info: Dec-18-2022 00:23:15: 	Server started and running on  8080
+info: Dec-18-2022 00:23:23: 	Server started and running on  8080

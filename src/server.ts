@@ -4,6 +4,8 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import compression from "compression";
 import morgan from "morgan";
+import fs from "fs";
+import path from "path";
 import responseTime from "response-time";
 var StatsD = require("node-statsd");
 import mongoDbConnection from "./database/mongoDB";
@@ -12,7 +14,6 @@ import errorHandler from "./middleware/requestErrorHandle";
 import { pageNotFound } from "./middleware/404Page";
 import v1Api from "./services/v1Apis";
 import { logger } from "./helpers/ErrorLogger";
-import { accessLogStream } from "./helpers/utils";
 dotenv.config();
 
 const app: Application = express();
@@ -30,7 +31,12 @@ app.use(requestHeaders);
 
 app.use(responseTime());
 
-app.use(morgan("combined", { stream: accessLogStream }));
+// const accessLogStream = fs.createWriteStream(
+//   path.join("../logs/access.log"),
+//   { flags: "a" }
+// );
+
+// app.use(morgan("combined", { stream: accessLogStream }));
 
 app.use(compression());
 
