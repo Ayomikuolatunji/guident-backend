@@ -62,6 +62,10 @@ const schoolSchema = new mongoose.Schema<SchoolSchema>(
       type: Boolean,
       default: false,
     },
+    emailVerification: {
+      type: Boolean,
+      default: false,
+    },
     admin_password: {
       type: String,
       require: [true, "password field is empty"],

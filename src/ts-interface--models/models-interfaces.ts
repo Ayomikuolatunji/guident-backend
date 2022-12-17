@@ -20,6 +20,7 @@ interface SchoolSchema extends mongooseId, DocumentResult<SchoolSchema> {
   admin_password?: string;
   school_students_parents?: any;
   profile_completed?: boolean;
+  emailVerification: boolean;
   otp?: string;
   tokenVerification?: boolean;
   updatedAt?: Date;

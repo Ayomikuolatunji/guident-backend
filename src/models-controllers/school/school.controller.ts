@@ -44,11 +44,7 @@ export const createSchoolAccount = expressAsyncHandler(
     const result = await school.save();
     sendSchoolReqEmail(result.school_email!!, result.school_name!!);
     res.status(StatusCodes.OK).json({
-      message: "Account created successfully",
-      data: getMutatedMongooseField({
-        field: result._doc!,
-        item: "admin_password",
-      }),
+      message: "Account created successfully, please verify your email address",
     });
   }
 );
@@ -72,28 +68,31 @@ export const createSchoolProfile = expressAsyncHandler(async (req, res) => {
     throwError("Admin phone number", StatusCodes.UNPROCESSABLE_ENTITY);
   else if (!req.body.admin_position)
     throwError("Admin position required", StatusCodes.UNPROCESSABLE_ENTITY);
-
-  const updateSchoolProfile: HydratedDocument<SchoolSchema, any, {}> =
-    await schoolSchema.updateOne(
-      { _id: school_id },
-      {
-        school_name: req.body.school_name,
-        school_address: req.body.school_address,
-        rc_number: req.body.rc_number,
-        school_logo: req.body.school_logo,
-        admin_first_name: req.body.admin_first_name,
-        admin_last_name: req.body.admin_last_name,
-        phone_number: parseInt(req.body.phone_number),
-        admin_position: req.body.admin_position,
-        profile_completed: true,
-      },
-      {
-        upsert: true,
-      }
+  else if (!IfSchoolExits?.emailVerification)
+    throwError(
+      "Please verify your email address, or you contact guident customer care",
+      StatusCodes.UNPROCESSABLE_ENTITY
     );
+  await schoolSchema.updateOne(
+    { _id: school_id },
+    {
+      school_name: req.body.school_name,
+      school_address: req.body.school_address,
+      rc_number: req.body.rc_number,
+      school_logo: req.body.school_logo,
+      admin_first_name: req.body.admin_first_name,
+      admin_last_name: req.body.admin_last_name,
+      phone_number: parseInt(req.body.phone_number),
+      admin_position: req.body.admin_position,
+      profile_completed: true,
+      emailVerification: true,
+    },
+    {
+      upsert: true,
+    }
+  );
   res.status(200).json({
     message: "Profile updated successfully",
-    data: updateSchoolProfile._doc,
   });
 });
 
@@ -191,30 +190,117 @@ export const resetSchoolAccountPassword = expressAsyncHandler(
   }
 );
 
-export const verifyAccount = expressAsyncHandler(async (req, res, next) => {
-  const otp = req.body.otp;
-  const findAccountByOtp = await schoolSchema
-    .findOne<SchoolSchema>({
-      otp: otp,
-    })
-    .exec();
-  if (!otp)
+export const requestVerificationOtp = expressAsyncHandler(
+  async (req, res, next) => {
+    const schoolId = req.query.school_id;
+    if (!schoolId)
+      throwError(
+        "school email is not provided",
+        StatusCodes.UNPROCESSABLE_ENTITY
+      );
+    const findSchool = await schoolSchema.findOne({
+      _id: schoolId,
+    });
+    if (!findSchool)
+      throwError(
+        "School does not exist with the email provided",
+        StatusCodes.UNPROCESSABLE_ENTITY
+      );
+    const otp = generateOTP();
+    await schoolSchema.updateOne({ _id: schoolId }, { otp: otp });
+    resetSchoolPassword(
+      findSchool?.school_email!,
+      findSchool?.school_name!,
+      otp
+    );
+    res.status(StatusCodes.OK).json({ message: "Opt sent successfully" });
+  }
+);
+
+export const verifyEmailAccount = expressAsyncHandler(
+  async (req, res, next) => {
+    const otp = req.body.otp;
+    const findAccountByOtp = await schoolSchema
+      .findOne<SchoolSchema>({
+        otp: otp,
+      })
+      .exec();
+    if (!otp)
+      throwError("Token not provided", StatusCodes.UNPROCESSABLE_ENTITY);
+    if (!findAccountByOtp)
+      throwError("Request a new token", StatusCodes.UNPROCESSABLE_ENTITY);
+    const dateElapseTime = diff_minutes(
+      findAccountByOtp?.updatedAt!,
+      new Date()
+    );
+    if (findAccountByOtp?._id!.toString() !== req.id?.toString())
+      throwError("You are not authorized", StatusCodes.UNPROCESSABLE_ENTITY);
+    if (dateElapseTime > 3) {
+      throwError("Token expired, try again", StatusCodes.UNPROCESSABLE_ENTITY);
+    } else {
+      await schoolSchema.updateOne(
+        { _id: findAccountByOtp?._id! },
+        { emailVerification: true, otp: "" }
+      );
+    }
+    res
+      .status(StatusCodes.OK)
+      .json({ message: "Email verified successfully", otp });
+  }
+);
+export const requestOtp = expressAsyncHandler(async (req, res, next) => {
+  const schoolEmail = req.body.school_email;
+  if (!schoolEmail)
     throwError(
-      "Token not provided or invalid token",
+      "school email is not provided",
       StatusCodes.UNPROCESSABLE_ENTITY
     );
-  if (!findAccountByOtp)
-    throwError("Request a new token", StatusCodes.UNPROCESSABLE_ENTITY);
-  const dateElapseTime = diff_minutes(findAccountByOtp?.updatedAt!, new Date());
-  if (dateElapseTime > 2) {
-    throwError("Token expired, try again", StatusCodes.UNPROCESSABLE_ENTITY);
-  } else {
-    await schoolSchema.updateOne({ opt: otp }, { tokenVerification: true });
-  }
-  res
-    .status(StatusCodes.OK)
-    .json({ message: "You are verified to reset password", otp });
+  const findSchool = await schoolSchema.findOne({
+    school_email: schoolEmail,
+  });
+  if (!findSchool)
+    throwError(
+      "School does not exist with the email provided",
+      StatusCodes.UNPROCESSABLE_ENTITY
+    );
+  const otp = generateOTP();
+  await schoolSchema.updateOne({ _id: findSchool?._id }, { otp: otp });
+  resetSchoolPassword(findSchool?.school_email!, findSchool?.school_name!, otp);
+  res.status(StatusCodes.OK).json({ message: "Opt sent successfully" });
 });
+
+export const verifyForgetPasswordOTp = expressAsyncHandler(
+  async (req, res, next) => {
+    const otp = req.body.otp;
+    const findAccountByOtp = await schoolSchema
+      .findOne<SchoolSchema>({
+        otp: otp,
+      })
+      .exec();
+    if (!otp)
+      throwError(
+        "Token not provided or invalid token",
+        StatusCodes.UNPROCESSABLE_ENTITY
+      );
+    if (!findAccountByOtp)
+      throwError("Request a new token", StatusCodes.UNPROCESSABLE_ENTITY);
+    const dateElapseTime = diff_minutes(
+      findAccountByOtp?.updatedAt!,
+      new Date()
+    );
+    if (dateElapseTime > 2) {
+      throwError("Token expired, try again", StatusCodes.UNPROCESSABLE_ENTITY);
+    } else {
+      await schoolSchema.updateOne(
+        { _id: findAccountByOtp?._id },
+        { tokenVerification: true }
+      ).exec();
+    }
+    res
+      .status(StatusCodes.OK)
+      .json({ message: "You are verified to reset password", otp });
+  }
+);
 
 export const updateSchoolPassword = expressAsyncHandler(
   async (req, res, next) => {
@@ -224,7 +310,13 @@ export const updateSchoolPassword = expressAsyncHandler(
       otp: otp,
       tokenVerification: true,
     });
-    if (!findbyOtp) throwError("Not allowed", StatusCodes.NOT_ACCEPTABLE);
+    if (!newSchoolPassword)
+      throwError("Password not provided", StatusCodes.NOT_ACCEPTABLE);
+    if (!findbyOtp)
+      throwError(
+        "Not allowed to update password, request new token",
+        StatusCodes.NOT_ACCEPTABLE
+      );
     const hashPassword = bcrypt.hashSync(newSchoolPassword, await salt());
     await schoolSchema.updateOne(
       { otp: otp },

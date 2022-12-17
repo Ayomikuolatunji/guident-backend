@@ -8,7 +8,10 @@ import {
   profileUpdate,
   resetSchoolAccountPassword,
   updateSchoolPassword,
-  verifyAccount,
+  verifyEmailAccount,
+  requestVerificationOtp,
+  verifyForgetPasswordOTp,
+  requestOtp,
 } from "../models-controllers/school/school.controller";
 import cacheSuccesses from "../services/apicache";
 
@@ -18,17 +21,22 @@ router.post("/create_school/", createSchoolAccount);
 
 router.patch("/complete_school_profile/", authToken, createSchoolProfile);
 
-router.patch("/update_school_password/", updateSchoolPassword);
-
 router.post("/login_school/", loginSchoolAccount);
 
 router.get("/all_schools/", authToken, cacheSuccesses, all_createdSchools);
 
 router.post("/update_school_profile/", authToken, profileUpdate);
 
+router.post("/request_email_address_otp/", authToken, requestVerificationOtp);
+
+router.patch("/verify_email_account/", authToken, verifyEmailAccount);
+
+router.post("/request_otp", requestOtp);
+
+router.patch("/verify_school_password_account/", verifyForgetPasswordOTp);
+
 router.post("/reset_school_password/", resetSchoolAccountPassword);
 
-router.post("/verify_account/", verifyAccount);
-
+router.patch("/update_school_password/", updateSchoolPassword);
 
 export default router;
