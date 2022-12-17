@@ -31,11 +31,12 @@ app.use(requestHeaders);
 
 app.use(responseTime());
 
-// create a write stream (in append mode)
-const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
+const accessLogStream = fs.createWriteStream(
+  path.join(__dirname, "access.log"),
+  { flags: "a" }
+);
 
-// setup the logger
-app.use(morgan('combined', { stream: accessLogStream }))
+app.use(morgan("combined", { stream: accessLogStream }));
 
 app.use(compression());
 
