@@ -39,10 +39,8 @@ app.use((0, cors_1.default)());
 // client request headers
 app.use(requestHeaders_1.default);
 app.use((0, response_time_1.default)());
-// create a write stream (in append mode)
-const accessLogStream = fs_1.default.createWriteStream(path_1.default.join(__dirname, 'access.log'), { flags: 'a' });
-// setup the logger
-app.use((0, morgan_1.default)('combined', { stream: accessLogStream }));
+const accessLogStream = fs_1.default.createWriteStream(path_1.default.join(__dirname, "./logs/access.logaccess.log"), { flags: "a" });
+app.use((0, morgan_1.default)("combined", { stream: accessLogStream }));
 app.use((0, compression_1.default)());
 // version 1 api
 app.use("/api", v1Apis_1.default);
