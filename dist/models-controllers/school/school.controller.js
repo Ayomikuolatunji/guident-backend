@@ -41,7 +41,7 @@ exports.createSchoolAccount = (0, express_async_handler_1.default)((req, res, ne
     else if (password.length < 8) {
         (0, ControllerError_1.throwError)("Password must be 8 characters long", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
     }
-    const hashPassword = bcrypt_1.default.hashSync(password, yield (0, utils_1.salt)());
+    const hashPassword = yield bcrypt_1.default.hash(password, yield (0, utils_1.salt)());
     const school = new school_model_1.default({
         school_email: req.body.school_email,
         admin_password: hashPassword,
@@ -57,7 +57,7 @@ exports.createSchoolProfile = (0, express_async_handler_1.default)((req, res) =>
     const school_id = req.query.school_id;
     const IfSchoolExits = yield school_model_1.default.findOne({ _id: school_id });
     if (!IfSchoolExits)
-        (0, ControllerError_1.throwError)("Invalid id was provide", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
+        (0, ControllerError_1.throwError)("Invalid school id was provide", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
     else if ((IfSchoolExits === null || IfSchoolExits === void 0 ? void 0 : IfSchoolExits._id.toString()) !== ((_a = req.id) === null || _a === void 0 ? void 0 : _a.toString()))
         (0, ControllerError_1.throwError)("You are not authorized", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
     if (!req.body.school_name)
@@ -95,22 +95,24 @@ exports.createSchoolProfile = (0, express_async_handler_1.default)((req, res) =>
 exports.loginSchoolAccount = (0, express_async_handler_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const email = req.body.school_email;
     const admin_password = req.body.admin_password;
-    const loginSchool = yield school_model_1.default.findOne({
+    if (!email || !admin_password)
+        (0, ControllerError_1.throwError)("Invalid emailand password required", http_status_codes_1.StatusCodes.BAD_REQUEST);
+    const findSchool = yield school_model_1.default.findOne({
         school_email: email,
     });
-    if (!loginSchool)
+    if (!findSchool)
         (0, ControllerError_1.throwError)("Invalid email or password", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
-    const comparePassword = bcrypt_1.default.compareSync(admin_password, loginSchool === null || loginSchool === void 0 ? void 0 : loginSchool.admin_password);
+    const comparePassword = yield bcrypt_1.default.compare(admin_password, findSchool === null || findSchool === void 0 ? void 0 : findSchool.admin_password);
     if (!comparePassword) {
         (0, ControllerError_1.throwError)("Invalid email or password", http_status_codes_1.StatusCodes.BAD_REQUEST);
     }
     const token = jsonwebtoken_1.default.sign({
-        email: loginSchool === null || loginSchool === void 0 ? void 0 : loginSchool.school_email,
-        id: loginSchool === null || loginSchool === void 0 ? void 0 : loginSchool._id.toString(),
+        email: findSchool === null || findSchool === void 0 ? void 0 : findSchool.school_email,
+        id: findSchool === null || findSchool === void 0 ? void 0 : findSchool._id.toString(),
     }, `${process.env.JWT_SECRET_KEY}`, { expiresIn: "30d" });
     res.status(http_status_codes_1.StatusCodes.OK).json({
         message: "Login successfully",
-        school_credentials: { token: token, school_id: loginSchool === null || loginSchool === void 0 ? void 0 : loginSchool._id },
+        school_credentials: { token: token, school_id: findSchool === null || findSchool === void 0 ? void 0 : findSchool._id },
     });
 }));
 exports.profileUpdate = (0, express_async_handler_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -224,7 +226,9 @@ exports.verifyForgetPasswordOTp = (0, express_async_handler_1.default)((req, res
         (0, ControllerError_1.throwError)("Token expired, try again", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
     }
     else {
-        yield school_model_1.default.updateOne({ _id: findAccountByOtp === null || findAccountByOtp === void 0 ? void 0 : findAccountByOtp._id }, { tokenVerification: true }).exec();
+        yield school_model_1.default
+            .updateOne({ _id: findAccountByOtp === null || findAccountByOtp === void 0 ? void 0 : findAccountByOtp._id }, { tokenVerification: true })
+            .exec();
     }
     res
         .status(http_status_codes_1.StatusCodes.OK)

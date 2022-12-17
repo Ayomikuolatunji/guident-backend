@@ -47,6 +47,7 @@ const schoolSchema = new mongoose.Schema<SchoolSchema>(
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
         "Please provide a valid email",
       ],
+      index: true,
     },
     admin_position: {
       type: String,
@@ -57,6 +58,7 @@ const schoolSchema = new mongoose.Schema<SchoolSchema>(
       type: String,
       default: "",
       require: [true, "rc number is required"],
+      index: true,
     },
     tokenVerification: {
       type: Boolean,
@@ -84,5 +86,7 @@ const schoolSchema = new mongoose.Schema<SchoolSchema>(
   },
   { timestamps: true }
 );
+
+schoolSchema.set("autoIndex", true);
 
 export default mongoose.model("school", schoolSchema);
