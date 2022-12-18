@@ -13,7 +13,7 @@ import requestHeaders from "./middleware/requestHeaders";
 import errorHandler from "./middleware/requestErrorHandle";
 import { pageNotFound } from "./middleware/404Page";
 import v1Api from "./services/v1Apis";
-import { logger } from "./helpers/ErrorLogger";
+// import { logger } from "./helpers/ErrorLogger";
 dotenv.config();
 
 const app: Application = express();
@@ -31,13 +31,6 @@ app.use(requestHeaders);
 
 app.use(responseTime());
 
-const accessLogStream = fs.createWriteStream(
-  path.join(__dirname, "./logs/access.logaccess.log"),
-  { flags: "a" }
-);
-
-app.use(morgan("combined", { stream: accessLogStream }));
-
 app.use(compression());
 
 // version 1 api
@@ -53,7 +46,7 @@ app.use(errorHandler);
   try {
     app.listen(process.env.PORT! || 8000, () => {
       console.log(`App running on port ${process.env.PORT}`);
-      logger.info(`Server started and running on  ${process.env.PORT}`);
+      // logger.info(`Server started and running on  ${process.env.PORT}`);
     });
     await mongoDbConnection();
   } catch (error: any) {

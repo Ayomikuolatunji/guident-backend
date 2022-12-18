@@ -17,9 +17,6 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
 const compression_1 = __importDefault(require("compression"));
-const morgan_1 = __importDefault(require("morgan"));
-const fs_1 = __importDefault(require("fs"));
-const path_1 = __importDefault(require("path"));
 const response_time_1 = __importDefault(require("response-time"));
 var StatsD = require("node-statsd");
 const mongoDB_1 = __importDefault(require("./database/mongoDB"));
@@ -27,7 +24,7 @@ const requestHeaders_1 = __importDefault(require("./middleware/requestHeaders"))
 const requestErrorHandle_1 = __importDefault(require("./middleware/requestErrorHandle"));
 const _404Page_1 = require("./middleware/404Page");
 const v1Apis_1 = __importDefault(require("./services/v1Apis"));
-const ErrorLogger_1 = require("./helpers/ErrorLogger");
+// import { logger } from "./helpers/ErrorLogger";
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 var stats = new StatsD();
@@ -39,8 +36,6 @@ app.use((0, cors_1.default)());
 // client request headers
 app.use(requestHeaders_1.default);
 app.use((0, response_time_1.default)());
-const accessLogStream = fs_1.default.createWriteStream(path_1.default.join(__dirname, "./logs/access.logaccess.log"), { flags: "a" });
-app.use((0, morgan_1.default)("combined", { stream: accessLogStream }));
 app.use((0, compression_1.default)());
 // version 1 api
 app.use("/api", v1Apis_1.default);
@@ -54,7 +49,7 @@ app.use(requestErrorHandle_1.default);
         try {
             app.listen(process.env.PORT || 8000, () => {
                 console.log(`App running on port ${process.env.PORT}`);
-                ErrorLogger_1.logger.info(`Server started and running on  ${process.env.PORT}`);
+                // logger.info(`Server started and running on  ${process.env.PORT}`);
             });
             yield (0, mongoDB_1.default)();
         }
