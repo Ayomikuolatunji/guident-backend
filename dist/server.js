@@ -18,7 +18,6 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
 const compression_1 = __importDefault(require("compression"));
 const response_time_1 = __importDefault(require("response-time"));
-var StatsD = require("node-statsd");
 const mongoDB_1 = __importDefault(require("./database/mongoDB"));
 const requestHeaders_1 = __importDefault(require("./middleware/requestHeaders"));
 const requestErrorHandle_1 = __importDefault(require("./middleware/requestErrorHandle"));
@@ -27,7 +26,6 @@ const v1Apis_1 = __importDefault(require("./services/v1Apis"));
 const ErrorLogger_1 = require("./helpers/ErrorLogger");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
-var stats = new StatsD();
 // convert request to json using express middleware
 app.use(body_parser_1.default.urlencoded({ extended: true }));
 app.use(body_parser_1.default.json());

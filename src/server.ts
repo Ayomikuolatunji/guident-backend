@@ -7,7 +7,6 @@ import morgan from "morgan";
 import fs from "fs";
 import path from "path";
 import responseTime from "response-time";
-var StatsD = require("node-statsd");
 import mongoDbConnection from "./database/mongoDB";
 import requestHeaders from "./middleware/requestHeaders";
 import errorHandler from "./middleware/requestErrorHandle";
@@ -17,7 +16,7 @@ import { logger } from "./helpers/ErrorLogger";
 dotenv.config();
 
 const app: Application = express();
-var stats = new StatsD();
+
 
 // convert request to json using express middleware
 app.use(bodyParser.urlencoded({ extended: true }));

@@ -23,10 +23,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.accessLogStream = exports.diff_minutes = exports.salt = exports.getMutatedMongooseField = void 0;
+exports.diff_minutes = exports.salt = exports.getMutatedMongooseField = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const fs_1 = __importDefault(require("fs"));
-const path_1 = __importDefault(require("path"));
 const getMutatedMongooseField = (field) => {
     const { item } = field, otherValue = __rest(field, ["item"]);
     return otherValue;
@@ -40,4 +38,3 @@ function diff_minutes(dt2, dt1) {
     return Math.abs(Math.round(diff));
 }
 exports.diff_minutes = diff_minutes;
-exports.accessLogStream = fs_1.default.createWriteStream(path_1.default.join(__dirname, "../../logs/access.log"), { flags: "a" });

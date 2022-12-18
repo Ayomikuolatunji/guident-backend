@@ -17,8 +17,3 @@ export function diff_minutes(dt2: Date, dt1: Date) {
   diff /= 60;
   return Math.abs(Math.round(diff));
 }
-
-export const accessLogStream = fs.createWriteStream(
-  path.join(__dirname, "../../logs/access.log"),
-  { flags: "a" }
-);
