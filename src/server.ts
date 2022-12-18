@@ -10,10 +10,10 @@ import requestHeaders from "./middleware/requestHeaders";
 import errorHandler from "./middleware/requestErrorHandle";
 import { pageNotFound } from "./middleware/404Page";
 import v1Api from "./services/v1Apis";
+import { logger } from "./helpers/ErrorLogger";
 dotenv.config();
 
 const app: Application = express();
-
 
 // convert request to json using express middleware
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -37,12 +37,14 @@ app.use(pageNotFound);
 // express client error handle
 app.use(errorHandler);
 
+console.log(process.env);
+
 // connecting server
 (async function startConnection() {
   try {
     app.listen(process.env.PORT! || 8000, () => {
       console.log(`App running on port ${process.env.PORT}`);
-      console.log("console log dev");
+      logger.info(`Server started and running on  ${process.env.PORT}`);
     });
     await mongoDbConnection();
   } catch (error: any) {
