@@ -3,13 +3,13 @@ import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import cors from "cors";
 import compression from "compression";
+
 import responseTime from "response-time";
 import mongoDbConnection from "./database/mongoDB";
 import requestHeaders from "./middleware/requestHeaders";
 import errorHandler from "./middleware/requestErrorHandle";
 import { pageNotFound } from "./middleware/404Page";
 import v1Api from "./services/v1Apis";
-import { logger } from "./helpers/ErrorLogger";
 dotenv.config();
 
 const app: Application = express();
@@ -42,7 +42,6 @@ app.use(errorHandler);
   try {
     app.listen(process.env.PORT! || 8000, () => {
       console.log(`App running on port ${process.env.PORT}`);
-      logger.info(`Server started and running on  ${process.env.PORT}`);
       console.log("console log dev");
     });
     await mongoDbConnection();
