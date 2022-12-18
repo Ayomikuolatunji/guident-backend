@@ -37,8 +37,6 @@ app.use(pageNotFound);
 // express client error handle
 app.use(errorHandler);
 
-console.log(process.env);
-
 // connecting server
 (async function startConnection() {
   try {
