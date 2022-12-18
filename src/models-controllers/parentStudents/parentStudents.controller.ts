@@ -6,27 +6,44 @@ import {
   ParentSchema,
   SchoolSchema,
 } from "../../ts-interface--models/models-interfaces";
-import parentSchema from "./parents.model";
+import parentSchema from "./parentStudents.model";
 import schoolSchema from "../school/school.model";
 import { throwError } from "../../middleware/ControllerError";
 import sendParentsReqEmail from "../../emails/parents/sendParentsEmails";
 
-export const createParentStudentAccount = expressAsyncHandler(
+export const admitStudentBySchool = expressAsyncHandler(
   async (req, res, next) => {
     const { school_id } = req.query;
-    const findSchool = await schoolSchema.findById({
-      _id: school_id,
-    });
+    const findSchool = await schoolSchema
+      .findOne({
+        _id: school_id,
+      })
+      .populate("school_students_parents")
+      .select("school_students_parents");
+
     if (!findSchool) {
       throwError("You need to provide valid the school _id", 404);
-      next();
     }
+
+    findSchool?.school_students_parents.forEach((child: ParentSchema) => {
+      if (
+        req.body.student_name === child.student_name &&
+        req.body.parent_name === child.parent_name &&
+        req.body.parent_email === child.parent_email
+      ) {
+        throwError(
+          "This student is already admitted",
+          StatusCodes.UNPROCESSABLE_ENTITY
+        );
+      }
+    });
+    if (findSchool?._id.toString() !== req.id?.toString())
+      throwError("You are not authorized", StatusCodes.UNPROCESSABLE_ENTITY);
     let _id: string = "";
-    const parentStudentAccount = new parentSchema<ParentSchema>({
+    const parentStudentAccount = new parentSchema({
       ...req.body,
     });
-    if (parentStudentAccount)
-      _id = parentStudentAccount._id! as unknown as string;
+    if (parentStudentAccount) _id = parentStudentAccount._id! as string;
     await parentStudentAccount.save();
     findSchool?.school_students_parents.push(_id);
     await findSchool!.save();
@@ -34,9 +51,10 @@ export const createParentStudentAccount = expressAsyncHandler(
       parentStudentAccount?.parent_email!,
       parentStudentAccount?.student_name!
     );
-    res
-      .status(StatusCodes.OK)
-      .json({ Message: "student admitted successfully" });
+    res.status(StatusCodes.OK).json({
+      Message: "student admitted successfully",
+      findSchool: findSchool?.school_students_parents,
+    });
   }
 );
 

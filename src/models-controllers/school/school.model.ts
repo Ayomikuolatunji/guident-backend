@@ -76,7 +76,7 @@ const schoolSchema = new mongoose.Schema<SchoolSchema>(
     school_students_parents: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Users",
+        ref: "parentSchema",
       },
     ],
     profile_completed: {
