@@ -23,6 +23,7 @@ const requestHeaders_1 = __importDefault(require("./middleware/requestHeaders"))
 const requestErrorHandle_1 = __importDefault(require("./middleware/requestErrorHandle"));
 const _404Page_1 = require("./middleware/404Page");
 const v1Apis_1 = __importDefault(require("./services/v1Apis"));
+const ErrorLogger_1 = require("./helpers/ErrorLogger");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 // convert request to json using express middleware
@@ -40,13 +41,14 @@ app.use("/api", v1Apis_1.default);
 app.use(_404Page_1.pageNotFound);
 // express client error handle
 app.use(requestErrorHandle_1.default);
+console.log(process.env);
 // connecting server
 (function startConnection() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             app.listen(process.env.PORT || 8000, () => {
                 console.log(`App running on port ${process.env.PORT}`);
-                console.log("console log dev");
+                ErrorLogger_1.logger.info(`Server started and running on  ${process.env.PORT}`);
             });
             yield (0, mongoDB_1.default)();
         }
