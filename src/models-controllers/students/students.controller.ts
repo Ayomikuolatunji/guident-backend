@@ -10,7 +10,7 @@ import studentSchema from "./students.model";
 import schoolSchema from "../school/school.model";
 import { throwError } from "../../middleware/ControllerError";
 import sendParentsReqEmail from "../../emails/parents/sendParentsEmails";
-import { getUniqueName, password, salt } from "../../helpers/utils";
+import { getUniqueName, salt } from "../../helpers/utils";
 
 export const admitStudentBySchool = expressAsyncHandler(
   async (req, res, next) => {
@@ -42,7 +42,17 @@ export const admitStudentBySchool = expressAsyncHandler(
       throwError("Student is already admitted", StatusCodes.CONFLICT);
     } else {
       let _id: string = "";
-      const hashPassword = await bcrypt.hash(password, await salt());
+      if (!body?.parent_password!)
+        throwError("Password required", StatusCodes.UNPROCESSABLE_ENTITY);
+      const hashPassword = await bcrypt.hash(
+        body?.parent_password!,
+        await salt()
+      );
+      if (!hashPassword)
+        throwError(
+          "Password cant be hashed, try again",
+          StatusCodes.UNPROCESSABLE_ENTITY
+        );
       const parentStudentAccount = new studentSchema({
         ...req.body,
         parent_password: hashPassword,
@@ -58,8 +68,8 @@ export const admitStudentBySchool = expressAsyncHandler(
       );
       res.status(StatusCodes.OK).json({
         message: "Student admitted successfully",
-        userName: getUniqueName(body.student_name),
-        password: password,
+        userName: getUniqueName(body.student_name).split(" ")[1],
+        password: body.parent_password,
       });
     }
   }

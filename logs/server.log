@@ -241,3 +241,24 @@ error: Dec-18-2022 13:03:55: 	409 - Conflict - Student is already admitted - /ap
 error: Dec-18-2022 13:04:02: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=639ef41cb5ede122dcfba305 - POST - ::1
 error: Dec-18-2022 13:04:45: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=639ef41cb5ede122dcfba305 - POST - ::1
 info: Dec-18-2022 13:06:58: 	Server started and running on  8080
+info: Dec-18-2022 13:14:25: 	Server started and running on  8080
+info: Dec-18-2022 23:08:19: 	Server started and running on  8080
+error: Dec-18-2022 23:10:41: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=639ef41cb5ede122dcfba305 - POST - ::1
+error: Dec-18-2022 23:11:49: 	500 - Internal Server Error - data and salt arguments required - /api/v1/admit_student/school?school_id=639ef41cb5ede122dcfba305 - POST - ::1
+info: Dec-18-2022 23:12:41: 	Server started and running on  8080
+error: Dec-18-2022 23:12:57: 	500 - Internal Server Error - data and salt arguments required - /api/v1/admit_student/school?school_id=639ef41cb5ede122dcfba305 - POST - ::1
+info: Dec-18-2022 23:13:29: 	Server started and running on  8080
+info: Dec-18-2022 23:13:35: 	Server started and running on  8080
+error: Dec-18-2022 23:14:15: 	500 - Internal Server Error - data and salt arguments required - /api/v1/admit_student/school?school_id=639ef41cb5ede122dcfba305 - POST - ::1
+error: Dec-18-2022 23:14:18: 	500 - Internal Server Error - data and salt arguments required - /api/v1/admit_student/school?school_id=639ef41cb5ede122dcfba305 - POST - ::1
+error: Dec-18-2022 23:15:13: 	422 - Unprocessable Entity - Password required - /api/v1/admit_student/school?school_id=639ef41cb5ede122dcfba305 - POST - ::1
+error: Dec-18-2022 23:15:19: 	422 - Unprocessable Entity - Password required - /api/v1/admit_student/school?school_id=639ef41cb5ede122dcfba305 - POST - ::1
+info: Dec-18-2022 23:15:34: 	Server started and running on  8080
+info: Dec-18-2022 23:16:07: 	Server started and running on  8080
+info: Dec-18-2022 23:16:21: 	Server started and running on  8080
+info: Dec-18-2022 23:16:25: 	Server started and running on  8080
+info: Dec-18-2022 23:16:32: 	Server started and running on  8080
+info: Dec-18-2022 23:17:39: 	Server started and running on  8080
+error: Dec-18-2022 23:18:46: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=639ef41cb5ede122dcfba305 - POST - ::1
+error: Dec-18-2022 23:18:50: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=639ef41cb5ede122dcfba305 - POST - ::1
+error: Dec-18-2022 23:18:55: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=639ef41cb5ede122dcfba305 - POST - ::1
