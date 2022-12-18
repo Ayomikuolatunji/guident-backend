@@ -9,3 +9,83 @@ info: Dec-18-2022 01:39:34: 	Server started and running on  8080
 info: Dec-18-2022 01:40:00: 	Server started and running on  8080
 info: Dec-18-2022 01:41:12: 	Server started and running on  8080
 info: Dec-18-2022 01:43:29: 	Server started and running on  8080
+info: Dec-18-2022 02:04:06: 	Server started and running on  8080
+info: Dec-18-2022 02:04:20: 	Server started and running on  8080
+info: Dec-18-2022 02:04:53: 	Server started and running on  8080
+info: Dec-18-2022 02:06:57: 	Server started and running on  8080
+info: Dec-18-2022 02:08:37: 	Server started and running on  8080
+info: Dec-18-2022 02:09:43: 	Server started and running on  8080
+info: Dec-18-2022 02:11:54: 	Server started and running on  8080
+error: Dec-18-2022 02:12:13: 	401 - Unauthorized - Not authorized - /api/v1/admit_student/school?school_id=634ef843a87c0a9ff540d3e1 - POST - ::1
+info: Dec-18-2022 02:13:13: 	Server started and running on  8080
+info: Dec-18-2022 02:13:44: 	Server started and running on  8080
+info: Dec-18-2022 02:14:14: 	Server started and running on  8080
+info: Dec-18-2022 02:14:26: 	Server started and running on  8080
+error: Dec-18-2022 02:14:58: 	401 - Unauthorized - Not authorized - /api/v1/admit_student/school?school_id=639e4b54bbde0ef37715f524 - POST - ::1
+error: Dec-18-2022 02:15:41: 	401 - Unauthorized - Not authorized - /api/v1/admit_student/school?school_id=639e4b54bbde0ef37715f524 - POST - ::1
+error: Dec-18-2022 02:15:50: 	422 - Unprocessable Entity - Invalid email or password - /api/v1/login_school/ - POST - ::1
+error: Dec-18-2022 02:15:56: 	422 - Unprocessable Entity - Invalid email or password - /api/v1/login_school/ - POST - ::1
+info: Dec-18-2022 02:17:48: 	Server started and running on  8080
+info: Dec-18-2022 02:18:37: 	Server started and running on  8080
+info: Dec-18-2022 02:19:32: 	Server started and running on  8080
+info: Dec-18-2022 02:19:45: 	Server started and running on  8080
+info: Dec-18-2022 02:20:02: 	Server started and running on  8080
+info: Dec-18-2022 02:20:14: 	Server started and running on  8080
+error: Dec-18-2022 02:20:29: 	500 - Internal Server Error - Schema hasn't been registered for model "Users".
+Use mongoose.model(name, schema) - /api/v1/admit_student/school?school_id=639e4b54bbde0ef37715f524 - POST - ::1
+info: Dec-18-2022 02:20:58: 	Server started and running on  8080
+error: Dec-18-2022 02:21:07: 	500 - Internal Server Error - Schema hasn't been registered for model "Users".
+Use mongoose.model(name, schema) - /api/v1/admit_student/school?school_id=639e4b54bbde0ef37715f524 - POST - ::1
+info: Dec-18-2022 02:21:39: 	Server started and running on  8080
+info: Dec-18-2022 02:24:58: 	Server started and running on  8080
+info: Dec-18-2022 02:25:51: 	Server started and running on  8080
+info: Dec-18-2022 02:27:34: 	Server started and running on  8080
+info: Dec-18-2022 02:28:47: 	Server started and running on  8080
+error: Dec-18-2022 02:28:53: 	500 - Internal Server Error - Schema hasn't been registered for model "Users".
+Use mongoose.model(name, schema) - /api/v1/admit_student/school?school_id=639e4b54bbde0ef37715f524 - POST - ::1
+info: Dec-18-2022 02:29:08: 	Server started and running on  8080
+info: Dec-18-2022 02:29:43: 	Server started and running on  8080
+info: Dec-18-2022 02:30:41: 	Server started and running on  8080
+info: Dec-18-2022 02:31:00: 	Server started and running on  8080
+info: Dec-18-2022 02:31:57: 	Server started and running on  8080
+info: Dec-18-2022 02:32:07: 	Server started and running on  8080
+info: Dec-18-2022 02:33:07: 	Server started and running on  8080
+info: Dec-18-2022 02:33:30: 	Server started and running on  8080
+info: Dec-18-2022 02:34:31: 	Server started and running on  8080
+error: Dec-18-2022 02:34:39: 	500 - Internal Server Error - Schema hasn't been registered for model "Users".
+Use mongoose.model(name, schema) - /api/v1/admit_student/school?school_id=639e4b54bbde0ef37715f524 - POST - ::1
+info: Dec-18-2022 02:36:34: 	Server started and running on  8080
+error: Dec-18-2022 02:36:44: 	500 - Internal Server Error - Schema hasn't been registered for model "Users".
+Use mongoose.model(name, schema) - /api/v1/admit_student/school?school_id=639e4b54bbde0ef37715f524 - POST - ::1
+error: Dec-18-2022 02:36:48: 	500 - Internal Server Error - Schema hasn't been registered for model "Users".
+Use mongoose.model(name, schema) - /api/v1/admit_student/school?school_id=639e4b54bbde0ef37715f524 - POST - ::1
+info: Dec-18-2022 02:37:12: 	Server started and running on  8080
+info: Dec-18-2022 02:38:49: 	Server started and running on  8080
+info: Dec-18-2022 02:39:42: 	Server started and running on  8080
+info: Dec-18-2022 02:40:10: 	Server started and running on  8080
+info: Dec-18-2022 02:40:23: 	Server started and running on  8080
+info: Dec-18-2022 02:40:33: 	Server started and running on  8080
+info: Dec-18-2022 02:41:04: 	Server started and running on  8080
+info: Dec-18-2022 02:42:19: 	Server started and running on  8080
+info: Dec-18-2022 02:44:41: 	Server started and running on  8080
+info: Dec-18-2022 02:45:32: 	Server started and running on  8080
+info: Dec-18-2022 02:46:10: 	Server started and running on  8080
+error: Dec-18-2022 02:46:18: 	500 - Internal Server Error - Unexpected token _ in JSON at position 4 - /api/v1/admit_student/school?school_id=639e4b54bbde0ef37715f524 - POST - ::1
+info: Dec-18-2022 02:46:51: 	Server started and running on  8080
+info: Dec-18-2022 02:47:44: 	Server started and running on  8080
+info: Dec-18-2022 02:48:21: 	Server started and running on  8080
+info: Dec-18-2022 02:48:45: 	Server started and running on  8080
+info: Dec-18-2022 02:49:28: 	Server started and running on  8080
+info: Dec-18-2022 08:27:04: 	Server started and running on  8080
+info: Dec-18-2022 08:28:35: 	Server started and running on  8080
+info: Dec-18-2022 08:30:48: 	Server started and running on  8080
+info: Dec-18-2022 08:31:22: 	Server started and running on  8080
+info: Dec-18-2022 08:31:38: 	Server started and running on  8080
+info: Dec-18-2022 08:35:26: 	Server started and running on  8080
+error: Dec-18-2022 08:35:38: 	422 - Unprocessable Entity - This student is admitted already - /api/v1/admit_student/school?school_id=639e4b54bbde0ef37715f524 - POST - ::1
+error: Dec-18-2022 08:35:42: 	422 - Unprocessable Entity - This student is admitted already - /api/v1/admit_student/school?school_id=639e4b54bbde0ef37715f524 - POST - ::1
+info: Dec-18-2022 08:36:52: 	Server started and running on  8080
+error: Dec-18-2022 08:37:08: 	422 - Unprocessable Entity - This student is admitted already - /api/v1/admit_student/school?school_id=639e4b54bbde0ef37715f524 - POST - ::1
+error: Dec-18-2022 08:37:13: 	422 - Unprocessable Entity - This student is admitted already - /api/v1/admit_student/school?school_id=639e4b54bbde0ef37715f524 - POST - ::1
+info: Dec-18-2022 08:37:34: 	Server started and running on  8080
+error: Dec-18-2022 08:37:40: 	422 - Unprocessable Entity - This student is already admitted - /api/v1/admit_student/school?school_id=639e4b54bbde0ef37715f524 - POST - ::1

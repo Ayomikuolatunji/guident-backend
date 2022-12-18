@@ -41,7 +41,6 @@ app.use("/api", v1Apis_1.default);
 app.use(_404Page_1.pageNotFound);
 // express client error handle
 app.use(requestErrorHandle_1.default);
-console.log(process.env);
 // connecting server
 (function startConnection() {
     return __awaiter(this, void 0, void 0, function* () {
