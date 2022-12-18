@@ -31,7 +31,6 @@ var stats = new StatsD();
 // convert request to json using express middleware
 app.use(body_parser_1.default.urlencoded({ extended: true }));
 app.use(body_parser_1.default.json());
-// active cors policy for client accessibility
 app.use((0, cors_1.default)());
 // client request headers
 app.use(requestHeaders_1.default);

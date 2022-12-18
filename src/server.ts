@@ -23,7 +23,7 @@ var stats = new StatsD();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// active cors policy for client accessibility
+
 app.use(cors());
 
 // client request headers
