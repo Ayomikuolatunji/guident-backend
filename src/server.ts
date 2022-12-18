@@ -13,7 +13,7 @@ import requestHeaders from "./middleware/requestHeaders";
 import errorHandler from "./middleware/requestErrorHandle";
 import { pageNotFound } from "./middleware/404Page";
 import v1Api from "./services/v1Apis";
-// import { logger } from "./helpers/ErrorLogger";
+import { logger } from "./helpers/ErrorLogger";
 dotenv.config();
 
 const app: Application = express();
@@ -23,7 +23,7 @@ var stats = new StatsD();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-
+// active cors policy for client accessibility
 app.use(cors());
 
 // client request headers
@@ -46,7 +46,8 @@ app.use(errorHandler);
   try {
     app.listen(process.env.PORT! || 8000, () => {
       console.log(`App running on port ${process.env.PORT}`);
-      // logger.info(`Server started and running on  ${process.env.PORT}`);
+      logger.info(`Server started and running on  ${process.env.PORT}`);
+      console.log("console log dev");
     });
     await mongoDbConnection();
   } catch (error: any) {
