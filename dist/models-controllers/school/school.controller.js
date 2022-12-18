@@ -158,6 +158,7 @@ exports.resetSchoolAccountPassword = (0, express_async_handler_1.default)((req, 
     res.status(http_status_codes_1.StatusCodes.OK).json({ message: "Opt sent successfully" });
 }));
 exports.requestVerificationOtp = (0, express_async_handler_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    var _b;
     const schoolId = req.query.school_id;
     if (!schoolId)
         (0, ControllerError_1.throwError)("school email is not provided", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
@@ -166,13 +167,15 @@ exports.requestVerificationOtp = (0, express_async_handler_1.default)((req, res,
     });
     if (!findSchool)
         (0, ControllerError_1.throwError)("School does not exist with the email provided", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
+    if ((findSchool === null || findSchool === void 0 ? void 0 : findSchool._id.toString()) !== ((_b = req.id) === null || _b === void 0 ? void 0 : _b.toString()))
+        (0, ControllerError_1.throwError)("You are not authorized", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
     const otp = (0, opt_generator_1.generateOTP)();
     yield school_model_1.default.updateOne({ _id: schoolId }, { otp: otp });
     (0, ResetPasswordEmail_1.default)(findSchool === null || findSchool === void 0 ? void 0 : findSchool.school_email, findSchool === null || findSchool === void 0 ? void 0 : findSchool.school_name, otp);
     res.status(http_status_codes_1.StatusCodes.OK).json({ message: "Opt sent successfully" });
 }));
 exports.verifyEmailAccount = (0, express_async_handler_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    var _b;
+    var _c;
     const otp = req.body.otp;
     const findAccountByOtp = yield school_model_1.default
         .findOne({
@@ -184,7 +187,7 @@ exports.verifyEmailAccount = (0, express_async_handler_1.default)((req, res, nex
     if (!findAccountByOtp)
         (0, ControllerError_1.throwError)("Request a new token", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
     const dateElapseTime = (0, utils_1.diff_minutes)(findAccountByOtp === null || findAccountByOtp === void 0 ? void 0 : findAccountByOtp.updatedAt, new Date());
-    if ((findAccountByOtp === null || findAccountByOtp === void 0 ? void 0 : findAccountByOtp._id.toString()) !== ((_b = req.id) === null || _b === void 0 ? void 0 : _b.toString()))
+    if ((findAccountByOtp === null || findAccountByOtp === void 0 ? void 0 : findAccountByOtp._id.toString()) !== ((_c = req.id) === null || _c === void 0 ? void 0 : _c.toString()))
         (0, ControllerError_1.throwError)("You are not authorized", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
     if (dateElapseTime > 3) {
         (0, ControllerError_1.throwError)("Token expired, try again", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);

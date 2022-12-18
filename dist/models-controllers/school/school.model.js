@@ -76,7 +76,7 @@ const schoolSchema = new mongoose_1.default.Schema({
     school_students_parents: [
         {
             type: mongoose_1.default.Schema.Types.ObjectId,
-            ref: "Users",
+            ref: "student",
         },
     ],
     profile_completed: {

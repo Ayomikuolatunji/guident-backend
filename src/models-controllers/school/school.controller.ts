@@ -211,6 +211,8 @@ export const requestVerificationOtp = expressAsyncHandler(
         "School does not exist with the email provided",
         StatusCodes.UNPROCESSABLE_ENTITY
       );
+    if (findSchool?._id.toString() !== req.id?.toString())
+      throwError("You are not authorized", StatusCodes.UNPROCESSABLE_ENTITY);
     const otp = generateOTP();
     await schoolSchema.updateOne({ _id: schoolId }, { otp: otp });
     resetSchoolPassword(

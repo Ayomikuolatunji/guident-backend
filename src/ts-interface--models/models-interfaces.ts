@@ -27,7 +27,7 @@ interface SchoolSchema extends mongooseId, DocumentResult<SchoolSchema> {
   createdAt?: Date;
 }
 
-interface ParentSchema extends mongooseId, DocumentResult<ParentSchema> {
+interface StudentSchema extends mongooseId, DocumentResult<StudentSchema> {
   student_name: string;
   date_of_birth: Date;
   nationality: string;
@@ -40,7 +40,10 @@ interface ParentSchema extends mongooseId, DocumentResult<ParentSchema> {
   parent_address: string;
   school_ref?: string;
   parent_password?: string;
-  student_intended_class: string;
+  student_intended_class?: string;
+  user_name?: string;
+  updatedAt?: Date;
+  createdAt?: Date;
 }
 
-export { SchoolSchema, ParentSchema };
+export { SchoolSchema, StudentSchema };
