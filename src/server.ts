@@ -3,11 +3,8 @@ import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import cors from "cors";
 import compression from "compression";
-import morgan from "morgan";
-import fs from "fs";
-import path from "path";
+
 import responseTime from "response-time";
-var StatsD = require("node-statsd");
 import mongoDbConnection from "./database/mongoDB";
 import requestHeaders from "./middleware/requestHeaders";
 import errorHandler from "./middleware/requestErrorHandle";
@@ -17,7 +14,6 @@ import { logger } from "./helpers/ErrorLogger";
 dotenv.config();
 
 const app: Application = express();
-var stats = new StatsD();
 
 // convert request to json using express middleware
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -30,13 +26,6 @@ app.use(cors());
 app.use(requestHeaders);
 
 app.use(responseTime());
-
-// const accessLogStream = fs.createWriteStream(
-//   path.join("../logs/access.log"),
-//   { flags: "a" }
-// );
-
-// app.use(morgan("combined", { stream: accessLogStream }));
 
 app.use(compression());
 
