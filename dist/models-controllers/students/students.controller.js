@@ -48,7 +48,11 @@ exports.admitStudentBySchool = (0, express_async_handler_1.default)((req, res, n
     }
     else {
         let _id = "";
-        const hashPassword = yield bcrypt_1.default.hash(utils_1.password, yield (0, utils_1.salt)());
+        if (!(body === null || body === void 0 ? void 0 : body.parent_password))
+            (0, ControllerError_1.throwError)("Password required", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
+        const hashPassword = yield bcrypt_1.default.hash(body === null || body === void 0 ? void 0 : body.parent_password, yield (0, utils_1.salt)());
+        if (!hashPassword)
+            (0, ControllerError_1.throwError)("Password cant be hashed, try again", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
         const parentStudentAccount = new students_model_1.default(Object.assign(Object.assign({}, req.body), { parent_password: hashPassword, user_name: (0, utils_1.getUniqueName)(body.student_name).split(" ")[1] }));
         if (parentStudentAccount)
             _id = parentStudentAccount._id;
@@ -58,8 +62,8 @@ exports.admitStudentBySchool = (0, express_async_handler_1.default)((req, res, n
         (0, sendParentsEmails_1.default)(parentStudentAccount === null || parentStudentAccount === void 0 ? void 0 : parentStudentAccount.parent_email, parentStudentAccount === null || parentStudentAccount === void 0 ? void 0 : parentStudentAccount.student_name);
         res.status(http_status_codes_1.StatusCodes.OK).json({
             message: "Student admitted successfully",
-            userName: (0, utils_1.getUniqueName)(body.student_name),
-            password: utils_1.password,
+            userName: (0, utils_1.getUniqueName)(body.student_name).split(" ")[1],
+            password: body.parent_password,
         });
     }
 }));

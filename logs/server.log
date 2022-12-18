@@ -262,3 +262,4 @@ info: Dec-18-2022 23:17:39: 	Server started and running on  8080
 error: Dec-18-2022 23:18:46: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=639ef41cb5ede122dcfba305 - POST - ::1
 error: Dec-18-2022 23:18:50: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=639ef41cb5ede122dcfba305 - POST - ::1
 error: Dec-18-2022 23:18:55: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=639ef41cb5ede122dcfba305 - POST - ::1
+error: Dec-18-2022 23:21:44: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=639ef41cb5ede122dcfba305 - POST - ::1
