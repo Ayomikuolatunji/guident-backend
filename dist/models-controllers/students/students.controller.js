@@ -33,7 +33,6 @@ exports.admitStudentBySchool = (0, express_async_handler_1.default)((req, res, n
     })
         .populate("school_students school_parents")
         .select("school_students");
-    console.log(findSchool);
     if (!findSchool) {
         (0, ControllerError_1.throwError)("You need to provide valid the school _id", 404);
     }
@@ -43,13 +42,13 @@ exports.admitStudentBySchool = (0, express_async_handler_1.default)((req, res, n
         student_name: body.student_name,
     });
     const findParent = yield parents_model_1.default.findOne({
-        parent_phone_number: body.parent_password,
+        parent_phone_number: body.parent_phone_number,
         parent_email: body.parent_email,
         parent_name: body.parent_name,
     });
     const studentExit = findSchool === null || findSchool === void 0 ? void 0 : findSchool.school_students.find((id) => (id === null || id === void 0 ? void 0 : id._id.toString()) === (findStudent === null || findStudent === void 0 ? void 0 : findStudent._id.toString()));
     const parentExit = findSchool === null || findSchool === void 0 ? void 0 : findSchool.school_parents.find((id) => (id === null || id === void 0 ? void 0 : id._id.toString()) === (findParent === null || findParent === void 0 ? void 0 : findParent._id.toString()));
-    if ((findStudent && findParent) || studentExit) {
+    if (findStudent || studentExit) {
         (0, ControllerError_1.throwError)("Student is already admitted", http_status_codes_1.StatusCodes.CONFLICT);
     }
     else {
@@ -69,7 +68,17 @@ exports.admitStudentBySchool = (0, express_async_handler_1.default)((req, res, n
             student_intended_class: body.student_intended_class,
         });
         yield studentAccount.save();
-        if (!parentExit) {
+        if (parentExit && findParent) {
+            (_b = findParent === null || findParent === void 0 ? void 0 : findParent.students) === null || _b === void 0 ? void 0 : _b.push(studentAccount._id);
+            yield (findParent === null || findParent === void 0 ? void 0 : findParent.save());
+            findSchool === null || findSchool === void 0 ? void 0 : findSchool.school_students.push(studentAccount._id);
+            yield findSchool.save();
+            yield (students_model_1.default === null || students_model_1.default === void 0 ? void 0 : students_model_1.default.updateOne({ _id: studentAccount._id }, {
+                school_ref: findSchool === null || findSchool === void 0 ? void 0 : findSchool._id,
+                parent_ref: findParent === null || findParent === void 0 ? void 0 : findParent._id,
+            }));
+        }
+        else if (!parentExit || !findParent) {
             const createParentAccount = new parents_model_1.default({
                 parent_email: body.parent_email,
                 parent_name: body.parent_name,
@@ -87,16 +96,6 @@ exports.admitStudentBySchool = (0, express_async_handler_1.default)((req, res, n
             yield (students_model_1.default === null || students_model_1.default === void 0 ? void 0 : students_model_1.default.updateOne({ _id: studentAccount._id }, {
                 school_ref: findSchool === null || findSchool === void 0 ? void 0 : findSchool._id,
                 parent_ref: createParentAccount === null || createParentAccount === void 0 ? void 0 : createParentAccount._id,
-            }));
-        }
-        else {
-            (_b = findParent === null || findParent === void 0 ? void 0 : findParent.students) === null || _b === void 0 ? void 0 : _b.push(studentAccount._id);
-            yield (findParent === null || findParent === void 0 ? void 0 : findParent.save());
-            findSchool === null || findSchool === void 0 ? void 0 : findSchool.school_students.push(studentAccount._id);
-            yield findSchool.save();
-            yield (students_model_1.default === null || students_model_1.default === void 0 ? void 0 : students_model_1.default.updateOne({ _id: studentAccount._id }, {
-                school_ref: findSchool === null || findSchool === void 0 ? void 0 : findSchool._id,
-                parent_ref: findParent === null || findParent === void 0 ? void 0 : findParent._id,
             }));
         }
         (0, sendParentsEmails_1.default)(findParent === null || findParent === void 0 ? void 0 : findParent.parent_email, studentAccount === null || studentAccount === void 0 ? void 0 : studentAccount.student_name);
