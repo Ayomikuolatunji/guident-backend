@@ -1,11 +1,9 @@
 interface mongooseId {
   _id?: string;
 }
-
 interface DocumentResult<T> {
   _doc?: T;
 }
-
 interface SchoolSchema extends mongooseId, DocumentResult<SchoolSchema> {
   push(newObj: SchoolSchema): unknown;
   school_name?: string;
@@ -18,7 +16,8 @@ interface SchoolSchema extends mongooseId, DocumentResult<SchoolSchema> {
   school_email?: string;
   admin_position?: string;
   admin_password?: string;
-  school_students_parents?: any;
+  school_students?: any[];
+  school_parents?: any[];
   profile_completed?: boolean;
   emailVerification: boolean;
   otp?: string;
@@ -27,20 +26,30 @@ interface SchoolSchema extends mongooseId, DocumentResult<SchoolSchema> {
   createdAt?: Date;
 }
 
-interface ParentSchema extends mongooseId, DocumentResult<ParentSchema> {
+interface StudentSchema extends mongooseId, DocumentResult<StudentSchema> {
   student_name: string;
   date_of_birth: Date;
   nationality: string;
   state_of_origin: string;
   local_government_area: string;
   profile_picture: string;
-  parent_name: string;
-  parent_phone_number: number;
-  parent_email?: string;
-  parent_address: string;
   school_ref?: string;
-  parent_password?: string;
-  student_intended_class: string;
+  parent_ref?: string;
+  student_intended_class?: string;
+  user_name?: string;
+  updatedAt?: Date;
+  createdAt?: Date;
 }
 
-export { SchoolSchema, ParentSchema };
+interface ParentSchema extends mongooseId, DocumentResult<ParentSchema> {
+  push(newObj: SchoolSchema): unknown;
+  parent_name?: string;
+  parent_phone_number?: number;
+  parent_email?: string;
+  parent_address?: string;
+  school_ref?: string;
+  parent_password?: string;
+  students?: any;
+}
+
+export { SchoolSchema, StudentSchema, ParentSchema };

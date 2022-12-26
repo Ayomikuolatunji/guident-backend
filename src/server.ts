@@ -1,3 +1,6 @@
+const cluster = require("cluster");
+const http = require("http");
+const numCPUs = require("os").cpus().length;
 import express, { Application } from "express";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
@@ -37,15 +40,33 @@ app.use(pageNotFound);
 // express client error handle
 app.use(errorHandler);
 
-// connecting server
-(async function startConnection() {
-  try {
-    app.listen(process.env.PORT! || 8000, () => {
-      console.log(`App running on port ${process.env.PORT}`);
-      logger.info(`Server started and running on  ${process.env.PORT}`);
-    });
-    await mongoDbConnection();
-  } catch (error: any) {
-    console.log(error.message);
+if (cluster.isMaster) {
+  console.log(`Master ${process.pid} is running`);
+  for (let i = 0; i < numCPUs; i++) {
+    cluster.fork();
   }
-})();
+  cluster.on(
+    "exit",
+    (worker: { process: { pid: any } }, code: any, signal: any) => {
+      console.log(`worker ${worker.process.pid} died`);
+    }
+  );
+} else {
+  console.log(`Worker ${process.pid} started`);
+  app.get("/cluster", (req, res) => {
+    let worker = cluster.worker.id;
+    res.send(`Running on worker with id ==> ${worker}`);
+  });
+  // connecting server
+  (async function startConnection() {
+    try {
+      app.listen(process.env.PORT! || 8000, () => {
+        console.log(`App running on port ${process.env.PORT}`);
+        logger.info(`Server started and running on  ${process.env.PORT}`);
+      });
+      await mongoDbConnection();
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  })();
+}

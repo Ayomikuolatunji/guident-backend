@@ -23,8 +23,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.diff_minutes = exports.salt = exports.getMutatedMongooseField = void 0;
+exports.password = exports.getUniqueName = exports.binarySearch = exports.diff_minutes = exports.salt = exports.getMutatedMongooseField = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const unique_username_generator_1 = require("unique-username-generator");
+const generate_password_1 = __importDefault(require("generate-password"));
 const getMutatedMongooseField = (field) => {
     const { item } = field, otherValue = __rest(field, ["item"]);
     return otherValue;
@@ -38,3 +40,31 @@ function diff_minutes(dt2, dt1) {
     return Math.abs(Math.round(diff));
 }
 exports.diff_minutes = diff_minutes;
+function binarySearch(array, key, compare) {
+    let left = 0;
+    let right = array.length - 1;
+    while (left <= right) {
+        const middle = Math.floor((left + right) / 2);
+        const comparison = compare(array[middle], key);
+        if (comparison === 0) {
+            return middle;
+        }
+        else if (comparison < 0) {
+            left = middle + 1;
+        }
+        else {
+            right = middle - 1;
+        }
+    }
+    return -1;
+}
+exports.binarySearch = binarySearch;
+const getUniqueName = (name) => {
+    const username = (0, unique_username_generator_1.generateUsername)(name, 3);
+    return username;
+};
+exports.getUniqueName = getUniqueName;
+exports.password = generate_password_1.default.generate({
+    length: 10,
+    numbers: true,
+});

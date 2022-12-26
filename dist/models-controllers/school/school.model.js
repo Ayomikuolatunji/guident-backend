@@ -73,16 +73,22 @@ const schoolSchema = new mongoose_1.default.Schema({
         require: [true, "password field is empty"],
         unique: true,
     },
-    school_students_parents: [
+    school_students: [
         {
             type: mongoose_1.default.Schema.Types.ObjectId,
-            ref: "Users",
+            ref: "student",
         },
     ],
     profile_completed: {
         type: Boolean,
         default: false,
     },
+    school_parents: [
+        {
+            type: mongoose_1.default.Schema.Types.ObjectId,
+            ref: "parents",
+        },
+    ],
 }, { timestamps: true });
 schoolSchema.set("autoIndex", true);
 exports.default = mongoose_1.default.model("school", schoolSchema);

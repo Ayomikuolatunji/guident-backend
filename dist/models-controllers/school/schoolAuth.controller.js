@@ -96,23 +96,32 @@ exports.loginSchoolAccount = (0, express_async_handler_1.default)((req, res, nex
     const email = req.body.school_email;
     const admin_password = req.body.admin_password;
     if (!email || !admin_password)
-        (0, ControllerError_1.throwError)("Invalid emailand password required", http_status_codes_1.StatusCodes.BAD_REQUEST);
+        (0, ControllerError_1.throwError)("Password and email is required", http_status_codes_1.StatusCodes.BAD_REQUEST);
     const findSchool = yield school_model_1.default.findOne({
         school_email: email,
     });
     if (!findSchool)
-        (0, ControllerError_1.throwError)("Invalid email or password", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
+        (0, ControllerError_1.throwError)("Account does not exits", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
+    else if (!(findSchool === null || findSchool === void 0 ? void 0 : findSchool.emailVerification)) {
+        (0, ControllerError_1.throwError)("Please verify your email address", http_status_codes_1.StatusCodes.FORBIDDEN);
+    }
     const comparePassword = yield bcrypt_1.default.compare(admin_password, findSchool === null || findSchool === void 0 ? void 0 : findSchool.admin_password);
     if (!comparePassword) {
-        (0, ControllerError_1.throwError)("Invalid email or password", http_status_codes_1.StatusCodes.BAD_REQUEST);
+        (0, ControllerError_1.throwError)("Invalid password", http_status_codes_1.StatusCodes.BAD_REQUEST);
     }
     const token = jsonwebtoken_1.default.sign({
         email: findSchool === null || findSchool === void 0 ? void 0 : findSchool.school_email,
         id: findSchool === null || findSchool === void 0 ? void 0 : findSchool._id.toString(),
+        emailVerify: true,
     }, `${process.env.JWT_SECRET_KEY}`, { expiresIn: "30d" });
     res.status(http_status_codes_1.StatusCodes.OK).json({
         message: "Login successfully",
-        school_credentials: { token: token, school_id: findSchool === null || findSchool === void 0 ? void 0 : findSchool._id },
+        school_credentials: {
+            token: token,
+            school_id: findSchool === null || findSchool === void 0 ? void 0 : findSchool._id,
+            isProfile_completed: findSchool === null || findSchool === void 0 ? void 0 : findSchool.profile_completed,
+            isEmail_verified: true,
+        },
     });
 }));
 exports.profileUpdate = (0, express_async_handler_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -158,34 +167,39 @@ exports.resetSchoolAccountPassword = (0, express_async_handler_1.default)((req, 
     res.status(http_status_codes_1.StatusCodes.OK).json({ message: "Opt sent successfully" });
 }));
 exports.requestVerificationOtp = (0, express_async_handler_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const schoolId = req.query.school_id;
-    if (!schoolId)
+    const schoolEmail = req.body.school_email;
+    if (!schoolEmail)
         (0, ControllerError_1.throwError)("school email is not provided", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
     const findSchool = yield school_model_1.default.findOne({
-        _id: schoolId,
+        school_email: schoolEmail,
     });
+    if (findSchool === null || findSchool === void 0 ? void 0 : findSchool.emailVerification) {
+        (0, ControllerError_1.throwError)("This email is verified", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
+    }
     if (!findSchool)
         (0, ControllerError_1.throwError)("School does not exist with the email provided", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
     const otp = (0, opt_generator_1.generateOTP)();
-    yield school_model_1.default.updateOne({ _id: schoolId }, { otp: otp });
+    yield school_model_1.default.updateOne({ _id: findSchool === null || findSchool === void 0 ? void 0 : findSchool._id }, { otp: otp });
     (0, ResetPasswordEmail_1.default)(findSchool === null || findSchool === void 0 ? void 0 : findSchool.school_email, findSchool === null || findSchool === void 0 ? void 0 : findSchool.school_name, otp);
     res.status(http_status_codes_1.StatusCodes.OK).json({ message: "Opt sent successfully" });
 }));
 exports.verifyEmailAccount = (0, express_async_handler_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    var _b;
     const otp = req.body.otp;
+    const schoolEmail = req.body.school_email;
     const findAccountByOtp = yield school_model_1.default
         .findOne({
         otp: otp,
+        school_email: schoolEmail,
     })
         .exec();
-    if (!otp)
-        (0, ControllerError_1.throwError)("Token not provided", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
+    if (!otp || !schoolEmail)
+        (0, ControllerError_1.throwError)("Token or School email address are not provided", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
+    if (findAccountByOtp === null || findAccountByOtp === void 0 ? void 0 : findAccountByOtp.emailVerification) {
+        (0, ControllerError_1.throwError)("This email is verified", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
+    }
     if (!findAccountByOtp)
         (0, ControllerError_1.throwError)("Request a new token", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
     const dateElapseTime = (0, utils_1.diff_minutes)(findAccountByOtp === null || findAccountByOtp === void 0 ? void 0 : findAccountByOtp.updatedAt, new Date());
-    if ((findAccountByOtp === null || findAccountByOtp === void 0 ? void 0 : findAccountByOtp._id.toString()) !== ((_b = req.id) === null || _b === void 0 ? void 0 : _b.toString()))
-        (0, ControllerError_1.throwError)("You are not authorized", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
     if (dateElapseTime > 3) {
         (0, ControllerError_1.throwError)("Token expired, try again", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
     }
