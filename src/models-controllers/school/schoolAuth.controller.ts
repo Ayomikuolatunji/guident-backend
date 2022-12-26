@@ -131,7 +131,11 @@ export const loginSchoolAccount = expressAsyncHandler(
     );
     res.status(StatusCodes.OK).json({
       message: "Login successfully",
-      school_credentials: { token: token, school_id: findSchool?._id },
+      school_credentials: {
+        token: token,
+        school_id: findSchool?._id,
+        is_profile_completed: findSchool?.profile_completed,
+      },
     });
   }
 );

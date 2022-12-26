@@ -309,3 +309,5 @@ info: Dec-26-2022 09:56:45: 	Server started and running on  8080
 error: Dec-26-2022 09:57:15: 	422 - Unprocessable Entity - Invalid school id was provide - /api/v1/complete_school_profile/?school_id=639ef41cb5ede122dcfba305 - PATCH - ::1
 error: Dec-26-2022 09:57:45: 	422 - Unprocessable Entity - You are not authorized - /api/v1/complete_school_profile/?school_id=63a95f3fb850a67128f993ad - PATCH - ::1
 error: Dec-26-2022 09:58:41: 	422 - Unprocessable Entity - Request a new token - /api/v1/verify_email_account/ - PATCH - ::1
+info: Dec-26-2022 10:02:50: 	Server started and running on  8080
+info: Dec-26-2022 10:05:49: 	Server started and running on  8080

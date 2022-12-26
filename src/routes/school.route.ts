@@ -12,7 +12,7 @@ import {
   requestVerificationOtp,
   verifyForgetPasswordOTp,
   requestOtp,
-} from "../models-controllers/school/school.controller";
+} from "../models-controllers/school/schoolAuth.controller";
 import cacheSuccesses from "../services/apicache";
 
 const router = express.Router();
