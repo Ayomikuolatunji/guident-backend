@@ -104,23 +104,27 @@ export const loginSchoolAccount = expressAsyncHandler(
     const email = req.body.school_email;
     const admin_password = req.body.admin_password;
     if (!email || !admin_password)
-      throwError("Invalid emailand password required", StatusCodes.BAD_REQUEST);
+      throwError("Password and email is required", StatusCodes.BAD_REQUEST);
     const findSchool = await schoolSchema.findOne({
       school_email: email,
     });
     if (!findSchool)
-      throwError("Invalid email or password", StatusCodes.UNPROCESSABLE_ENTITY);
+      throwError("Account does not exits", StatusCodes.UNPROCESSABLE_ENTITY);
+    else if (!findSchool?.emailVerification) {
+      throwError("Please verify your email address", StatusCodes.FORBIDDEN);
+    }
     const comparePassword = await bcrypt.compare(
       admin_password,
       findSchool?.admin_password!
     );
     if (!comparePassword) {
-      throwError("Invalid email or password", StatusCodes.BAD_REQUEST);
+      throwError("Invalid password", StatusCodes.BAD_REQUEST);
     }
     const token = jwt.sign(
       {
         email: findSchool?.school_email,
         id: findSchool?._id!.toString(),
+        emailVerify: true,
       },
       `${process.env.JWT_SECRET_KEY}`,
       { expiresIn: "30d" }
@@ -197,24 +201,22 @@ export const resetSchoolAccountPassword = expressAsyncHandler(
 
 export const requestVerificationOtp = expressAsyncHandler(
   async (req, res, next) => {
-    const schoolId = req.query.school_id;
-    if (!schoolId)
+    const schoolEmail = req.body.school_email;
+    if (!schoolEmail)
       throwError(
         "school email is not provided",
         StatusCodes.UNPROCESSABLE_ENTITY
       );
     const findSchool = await schoolSchema.findOne({
-      _id: schoolId,
+      school_email: schoolEmail,
     });
     if (!findSchool)
       throwError(
         "School does not exist with the email provided",
         StatusCodes.UNPROCESSABLE_ENTITY
       );
-    if (findSchool?._id.toString() !== req.id?.toString())
-      throwError("You are not authorized", StatusCodes.UNPROCESSABLE_ENTITY);
     const otp = generateOTP();
-    await schoolSchema.updateOne({ _id: schoolId }, { otp: otp });
+    await schoolSchema.updateOne({ _id: findSchool?._id }, { otp: otp });
     resetSchoolPassword(
       findSchool?.school_email!,
       findSchool?.school_name!,
@@ -227,21 +229,24 @@ export const requestVerificationOtp = expressAsyncHandler(
 export const verifyEmailAccount = expressAsyncHandler(
   async (req, res, next) => {
     const otp = req.body.otp;
+    const schoolEmail = req.body.school_email;
     const findAccountByOtp = await schoolSchema
       .findOne<SchoolSchema>({
         otp: otp,
+        school_email: schoolEmail,
       })
       .exec();
-    if (!otp)
-      throwError("Token not provided", StatusCodes.UNPROCESSABLE_ENTITY);
+    if (!otp || !schoolEmail)
+      throwError(
+        "Token or School email address are not provided",
+        StatusCodes.UNPROCESSABLE_ENTITY
+      );
     if (!findAccountByOtp)
       throwError("Request a new token", StatusCodes.UNPROCESSABLE_ENTITY);
     const dateElapseTime = diff_minutes(
       findAccountByOtp?.updatedAt!,
       new Date()
     );
-    if (findAccountByOtp?._id!.toString() !== req.id?.toString())
-      throwError("You are not authorized", StatusCodes.UNPROCESSABLE_ENTITY);
     if (dateElapseTime > 3) {
       throwError("Token expired, try again", StatusCodes.UNPROCESSABLE_ENTITY);
     } else {

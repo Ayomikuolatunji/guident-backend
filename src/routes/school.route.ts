@@ -27,9 +27,9 @@ router.get("/all_schools/", authToken, cacheSuccesses, all_createdSchools);
 
 router.post("/update_school_profile/", authToken, profileUpdate);
 
-router.post("/request_email_address_otp/", authToken, requestVerificationOtp);
+router.post("/request_email_address_otp/", requestVerificationOtp);
 
-router.patch("/verify_email_account/", authToken, verifyEmailAccount);
+router.patch("/verify_email_account/", verifyEmailAccount);
 
 router.post("/request_otp", requestOtp);
 
