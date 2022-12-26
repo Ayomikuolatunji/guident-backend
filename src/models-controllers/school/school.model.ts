@@ -73,7 +73,7 @@ const schoolSchema = new mongoose.Schema<SchoolSchema>(
       require: [true, "password field is empty"],
       unique: true,
     },
-    school_students_parents: [
+    school_students: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "student",
@@ -83,6 +83,12 @@ const schoolSchema = new mongoose.Schema<SchoolSchema>(
       type: Boolean,
       default: false,
     },
+    school_parents: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "parents",
+      },
+    ],
   },
   { timestamps: true }
 );

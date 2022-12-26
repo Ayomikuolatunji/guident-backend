@@ -30,8 +30,8 @@ exports.admitStudentBySchool = (0, express_async_handler_1.default)((req, res, n
         .findOne({
         _id: school_id,
     })
-        .populate("school_students_parents")
-        .select("school_students_parents");
+        .populate("school_students")
+        .select("school_students");
     if (!findSchool) {
         (0, ControllerError_1.throwError)("You need to provide valid the school _id", 404);
     }
@@ -42,7 +42,7 @@ exports.admitStudentBySchool = (0, express_async_handler_1.default)((req, res, n
         student_name: body.student_name,
         parent_phone_number: body.parent_phone_number,
     });
-    const studentExit = findSchool === null || findSchool === void 0 ? void 0 : findSchool.school_students_parents.find((id) => (id === null || id === void 0 ? void 0 : id._id.toString()) === (findStudent === null || findStudent === void 0 ? void 0 : findStudent._id.toString()));
+    const studentExit = findSchool === null || findSchool === void 0 ? void 0 : findSchool.school_students.find((id) => (id === null || id === void 0 ? void 0 : id._id.toString()) === (findStudent === null || findStudent === void 0 ? void 0 : findStudent._id.toString()));
     if (findStudent || studentExit) {
         (0, ControllerError_1.throwError)("Student is already admitted", http_status_codes_1.StatusCodes.CONFLICT);
     }
@@ -57,7 +57,7 @@ exports.admitStudentBySchool = (0, express_async_handler_1.default)((req, res, n
         if (parentStudentAccount)
             _id = parentStudentAccount._id;
         yield parentStudentAccount.save();
-        findSchool === null || findSchool === void 0 ? void 0 : findSchool.school_students_parents.push(_id);
+        findSchool === null || findSchool === void 0 ? void 0 : findSchool.school_students.push(_id);
         yield findSchool.save();
         (0, sendParentsEmails_1.default)(parentStudentAccount === null || parentStudentAccount === void 0 ? void 0 : parentStudentAccount.parent_email, parentStudentAccount === null || parentStudentAccount === void 0 ? void 0 : parentStudentAccount.student_name);
         res.status(http_status_codes_1.StatusCodes.OK).json({
@@ -74,8 +74,8 @@ exports.getSchoolStudents = (0, express_async_handler_1.default)((req, res, next
         .findOne({
         _id: school_id,
     })
-        .populate("school_students_parents")
-        .select("school_students_parents");
+        .populate("school_students")
+        .select("school_students");
     if (!findSchool) {
         (0, ControllerError_1.throwError)("You need to provide valid the school _id", 404);
     }

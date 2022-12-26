@@ -134,7 +134,8 @@ export const loginSchoolAccount = expressAsyncHandler(
       school_credentials: {
         token: token,
         school_id: findSchool?._id,
-        is_profile_completed: findSchool?.profile_completed,
+        isProfile_completed: findSchool?.profile_completed,
+        isEmail_verified: true,
       },
     });
   }
@@ -214,6 +215,9 @@ export const requestVerificationOtp = expressAsyncHandler(
     const findSchool = await schoolSchema.findOne({
       school_email: schoolEmail,
     });
+    if (findSchool?.emailVerification) {
+      throwError("This email is verified", StatusCodes.UNPROCESSABLE_ENTITY);
+    }
     if (!findSchool)
       throwError(
         "School does not exist with the email provided",
@@ -245,6 +249,9 @@ export const verifyEmailAccount = expressAsyncHandler(
         "Token or School email address are not provided",
         StatusCodes.UNPROCESSABLE_ENTITY
       );
+    if (findAccountByOtp?.emailVerification) {
+      throwError("This email is verified", StatusCodes.UNPROCESSABLE_ENTITY);
+    }
     if (!findAccountByOtp)
       throwError("Request a new token", StatusCodes.UNPROCESSABLE_ENTITY);
     const dateElapseTime = diff_minutes(

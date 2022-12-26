@@ -311,3 +311,134 @@ error: Dec-26-2022 09:57:45: 	422 - Unprocessable Entity - You are not authorize
 error: Dec-26-2022 09:58:41: 	422 - Unprocessable Entity - Request a new token - /api/v1/verify_email_account/ - PATCH - ::1
 info: Dec-26-2022 10:02:50: 	Server started and running on  8080
 info: Dec-26-2022 10:05:49: 	Server started and running on  8080
+info: Dec-26-2022 10:10:50: 	Server started and running on  8080
+info: Dec-26-2022 10:10:54: 	Server started and running on  8080
+info: Dec-26-2022 10:16:19: 	Server started and running on  8080
+info: Dec-26-2022 10:17:40: 	Server started and running on  8080
+info: Dec-26-2022 10:19:47: 	Server started and running on  8080
+info: Dec-26-2022 10:20:11: 	Server started and running on  8080
+info: Dec-26-2022 10:21:19: 	Server started and running on  8080
+info: Dec-26-2022 10:21:32: 	Server started and running on  8080
+info: Dec-26-2022 10:22:46: 	Server started and running on  8080
+info: Dec-26-2022 10:23:22: 	Server started and running on  8080
+info: Dec-26-2022 10:28:14: 	Server started and running on  8080
+info: Dec-26-2022 10:28:58: 	Server started and running on  8080
+error: Dec-26-2022 10:30:33: 	404 - Not Found - You need to provide valid the school _id - /api/v1/admit_student/school?school_id=639ef41cb5ede122dcfba305 - POST - ::1
+error: Dec-26-2022 10:30:58: 	404 - Not Found - You need to provide valid the school _id - /api/v1/admit_student/school?school_id=639ef41cb5ede122dcfba305 - POST - ::1
+error: Dec-26-2022 10:31:01: 	404 - Not Found - You need to provide valid the school _id - /api/v1/admit_student/school?school_id=639ef41cb5ede122dcfba305 - POST - ::1
+error: Dec-26-2022 10:31:47: 	422 - Unprocessable Entity - You are not authorized - /api/v1/admit_student/school?school_id=63a95f3fb850a67128f993ad - POST - ::1
+error: Dec-26-2022 10:35:45: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a95f3fb850a67128f993ad - POST - ::1
+info: Dec-26-2022 10:38:03: 	Server started and running on  8080
+info: Dec-26-2022 10:38:35: 	Server started and running on  8080
+info: Dec-26-2022 10:39:30: 	Server started and running on  8080
+info: Dec-26-2022 10:39:44: 	Server started and running on  8080
+info: Dec-26-2022 10:43:43: 	Server started and running on  8080
+info: Dec-26-2022 10:53:21: 	Server started and running on  8080
+error: Dec-26-2022 10:53:35: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a95f3fb850a67128f993ad - POST - ::1
+info: Dec-26-2022 10:54:25: 	Server started and running on  8080
+info: Dec-26-2022 10:55:24: 	Server started and running on  8080
+info: Dec-26-2022 10:55:55: 	Server started and running on  8080
+info: Dec-26-2022 10:56:06: 	Server started and running on  8080
+info: Dec-26-2022 10:56:17: 	Server started and running on  8080
+info: Dec-26-2022 10:57:15: 	Server started and running on  8080
+info: Dec-26-2022 10:57:49: 	Server started and running on  8080
+info: Dec-26-2022 10:58:17: 	Server started and running on  8080
+info: Dec-26-2022 11:14:01: 	Server started and running on  8080
+info: Dec-26-2022 11:14:39: 	Server started and running on  8080
+info: Dec-26-2022 11:15:04: 	Server started and running on  8080
+error: Dec-26-2022 11:15:29: 	500 - Internal Server Error - Operation `schools.findOne()` buffering timed out after 10000ms - /api/v1/admit_student/school?school_id=63a95f3fb850a67128f993ad - POST - ::1
+error: Dec-26-2022 11:16:13: 	500 - Internal Server Error - Cannot read properties of undefined (reading 'push') - /api/v1/admit_student/school?school_id=63a95f3fb850a67128f993ad - POST - ::1
+error: Dec-26-2022 11:17:23: 	500 - Internal Server Error - Cannot read properties of undefined (reading 'push') - /api/v1/admit_student/school?school_id=63a95f3fb850a67128f993ad - POST - ::1
+info: Dec-26-2022 11:18:11: 	Server started and running on  8080
+info: Dec-26-2022 11:19:52: 	Server started and running on  8080
+error: Dec-26-2022 11:20:42: 	500 - Internal Server Error - Operation `schools.findOne()` buffering timed out after 10000ms - /api/v1/admit_student/school?school_id=63a95f3fb850a67128f993ad - POST - ::1
+info: Dec-26-2022 11:21:37: 	Server started and running on  8080
+error: Dec-26-2022 11:24:43: 	500 - Internal Server Error - Cannot read properties of undefined (reading 'push') - /api/v1/admit_student/school?school_id=63a95f3fb850a67128f993ad - POST - ::1
+info: Dec-26-2022 11:26:12: 	Server started and running on  8080
+info: Dec-26-2022 11:26:26: 	Server started and running on  8080
+info: Dec-26-2022 11:26:39: 	Server started and running on  8080
+info: Dec-26-2022 11:28:32: 	Server started and running on  8080
+info: Dec-26-2022 11:29:18: 	Server started and running on  8080
+info: Dec-26-2022 11:29:36: 	Server started and running on  8080
+info: Dec-26-2022 11:30:07: 	Server started and running on  8080
+error: Dec-26-2022 11:31:10: 	500 - Internal Server Error - Cannot read properties of undefined (reading 'push') - /api/v1/admit_student/school?school_id=63a95f3fb850a67128f993ad - POST - ::1
+error: Dec-26-2022 11:35:01: 	500 - Internal Server Error - Cannot read properties of undefined (reading 'find') - /api/v1/admit_student/school?school_id=63a95f3fb850a67128f993ad - POST - ::1
+info: Dec-26-2022 11:39:40: 	Server started and running on  8080
+info: Dec-26-2022 11:57:28: 	Server started and running on  8080
+error: Dec-26-2022 11:57:35: 	422 - Unprocessable Entity - Account does not exits - /api/v1/login_school/ - POST - ::1
+error: Dec-26-2022 11:57:48: 	403 - Forbidden - Please verify your email address - /api/v1/login_school/ - POST - ::1
+error: Dec-26-2022 11:58:12: 	422 - Unprocessable Entity - Request a new token - /api/v1/verify_email_account/ - PATCH - ::1
+info: Dec-26-2022 11:59:42: 	Server started and running on  8080
+error: Dec-26-2022 11:59:56: 	422 - Unprocessable Entity - Invalid school id was provide - /api/v1/complete_school_profile/?school_id=63a95f3fb850a67128f993ad - PATCH - ::1
+error: Dec-26-2022 12:00:15: 	422 - Unprocessable Entity - You are not authorized - /api/v1/complete_school_profile/?school_id=63a97e275a4e3db222bb944f - PATCH - ::1
+info: Dec-26-2022 12:01:26: 	Server started and running on  8080
+info: Dec-26-2022 12:01:33: 	Server started and running on  8080
+info: Dec-26-2022 12:01:40: 	Server started and running on  8080
+info: Dec-26-2022 12:02:50: 	Server started and running on  8080
+error: Dec-26-2022 12:06:47: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+info: Dec-26-2022 12:09:05: 	Server started and running on  8080
+info: Dec-26-2022 12:09:14: 	Server started and running on  8080
+error: Dec-26-2022 12:09:44: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+error: Dec-26-2022 12:10:02: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+error: Dec-26-2022 12:11:21: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+info: Dec-26-2022 12:12:33: 	Server started and running on  8080
+info: Dec-26-2022 12:13:58: 	Server started and running on  8080
+info: Dec-26-2022 12:15:08: 	Server started and running on  8080
+info: Dec-26-2022 12:17:44: 	Server started and running on  8080
+error: Dec-26-2022 12:18:17: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+info: Dec-26-2022 12:19:11: 	Server started and running on  8080
+info: Dec-26-2022 12:19:31: 	Server started and running on  8080
+error: Dec-26-2022 12:19:44: 	500 - Internal Server Error - Operation `schools.findOne()` buffering timed out after 10000ms - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+info: Dec-26-2022 12:20:15: 	Server started and running on  8080
+error: Dec-26-2022 12:20:39: 	500 - Internal Server Error - Operation `schools.findOne()` buffering timed out after 10000ms - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+info: Dec-26-2022 12:20:59: 	Server started and running on  8080
+error: Dec-26-2022 12:22:30: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+error: Dec-26-2022 12:22:55: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+error: Dec-26-2022 12:23:18: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+info: Dec-26-2022 12:23:44: 	Server started and running on  8080
+error: Dec-26-2022 12:24:00: 	500 - Internal Server Error - Operation `schools.findOne()` buffering timed out after 10000ms - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+error: Dec-26-2022 12:24:14: 	500 - Internal Server Error - Operation `schools.findOne()` buffering timed out after 10000ms - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+error: Dec-26-2022 12:24:39: 	500 - Internal Server Error - Operation `schools.findOne()` buffering timed out after 10000ms - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+info: Dec-26-2022 12:24:59: 	Server started and running on  8080
+info: Dec-26-2022 12:25:11: 	Server started and running on  8080
+error: Dec-26-2022 12:25:42: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+error: Dec-26-2022 12:26:10: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+error: Dec-26-2022 12:26:18: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+error: Dec-26-2022 12:26:21: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+error: Dec-26-2022 12:26:25: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+info: Dec-26-2022 12:26:38: 	Server started and running on  8080
+error: Dec-26-2022 12:26:46: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+error: Dec-26-2022 12:26:52: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+error: Dec-26-2022 12:26:56: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+info: Dec-26-2022 12:27:28: 	Server started and running on  8080
+error: Dec-26-2022 12:27:34: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+error: Dec-26-2022 12:27:39: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+info: Dec-26-2022 12:30:11: 	Server started and running on  8080
+info: Dec-26-2022 12:32:59: 	Server started and running on  8080
+info: Dec-26-2022 12:33:54: 	Server started and running on  8080
+info: Dec-26-2022 12:34:09: 	Server started and running on  8080
+info: Dec-26-2022 12:34:19: 	Server started and running on  8080
+error: Dec-26-2022 12:35:21: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+info: Dec-26-2022 12:38:15: 	Server started and running on  8080
+info: Dec-26-2022 12:38:34: 	Server started and running on  8080
+error: Dec-26-2022 12:39:08: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+info: Dec-26-2022 12:40:07: 	Server started and running on  8080
+info: Dec-26-2022 12:40:17: 	Server started and running on  8080
+info: Dec-26-2022 12:40:35: 	Server started and running on  8080
+info: Dec-26-2022 12:43:06: 	Server started and running on  8080
+error: Dec-26-2022 12:44:07: 	500 - Internal Server Error - Operation `schools.findOne()` buffering timed out after 10000ms - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+info: Dec-26-2022 12:44:32: 	Server started and running on  8080
+info: Dec-26-2022 12:45:40: 	Server started and running on  8080
+error: Dec-26-2022 12:45:54: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+info: Dec-26-2022 12:47:06: 	Server started and running on  8080
+error: Dec-26-2022 12:49:07: 	500 - Internal Server Error - Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://docs.atlas.mongodb.com/security-whitelist/ - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+info: Dec-26-2022 12:50:40: 	Server started and running on  8080
+info: Dec-26-2022 12:51:05: 	Server started and running on  8080
+error: Dec-26-2022 12:53:45: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+error: Dec-26-2022 12:54:02: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+info: Dec-26-2022 12:54:37: 	Server started and running on  8080
+error: Dec-26-2022 12:56:34: 	422 - Unprocessable Entity - This email is verified - /api/v1/request_email_address_otp/ - POST - ::1
+error: Dec-26-2022 12:56:47: 	422 - Unprocessable Entity - Request a new token - /api/v1/verify_email_account/ - PATCH - ::1
+error: Dec-26-2022 12:57:09: 	404 - Not Found - You need to provide valid the school _id - /api/v1/get_school_students/school?school_id=639ef41cb5ede122dcfba305 - GET - ::1
+error: Dec-26-2022 12:57:56: 	422 - Unprocessable Entity - You are not authorized - /api/v1/get_school_students/school?school_id=63a97e275a4e3db222bb944f - GET - ::1
+error: Dec-26-2022 12:58:08: 	422 - Unprocessable Entity - You are not authorized - /api/v1/get_school_students/school?school_id=63a97e275a4e3db222bb944f - GET - ::1
