@@ -19,47 +19,87 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const students_model_1 = __importDefault(require("./students.model"));
 const school_model_1 = __importDefault(require("../school/school.model"));
+const parents_model_1 = __importDefault(require("../parents/parents.model"));
 const ControllerError_1 = require("../../middleware/ControllerError");
 const sendParentsEmails_1 = __importDefault(require("../../emails/parents/sendParentsEmails"));
 const utils_1 = require("../../helpers/utils");
 exports.admitStudentBySchool = (0, express_async_handler_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
+    var _a, _b;
     const { school_id } = req.query;
     const body = Object.assign({}, req.body);
     const findSchool = yield school_model_1.default
         .findOne({
         _id: school_id,
     })
-        .populate("school_students")
+        .populate("school_students school_parents")
         .select("school_students");
+    console.log(findSchool);
     if (!findSchool) {
         (0, ControllerError_1.throwError)("You need to provide valid the school _id", 404);
     }
     if ((findSchool === null || findSchool === void 0 ? void 0 : findSchool._id.toString()) !== ((_a = req.id) === null || _a === void 0 ? void 0 : _a.toString()))
         (0, ControllerError_1.throwError)("You are not authorized", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
     const findStudent = yield students_model_1.default.findOne({
-        parent_email: body.parent_email,
         student_name: body.student_name,
-        parent_phone_number: body.parent_phone_number,
+    });
+    const findParent = yield parents_model_1.default.findOne({
+        parent_phone_number: body.parent_password,
+        parent_email: body.parent_email,
+        parent_name: body.parent_name,
     });
     const studentExit = findSchool === null || findSchool === void 0 ? void 0 : findSchool.school_students.find((id) => (id === null || id === void 0 ? void 0 : id._id.toString()) === (findStudent === null || findStudent === void 0 ? void 0 : findStudent._id.toString()));
-    if (findStudent || studentExit) {
+    const parentExit = findSchool === null || findSchool === void 0 ? void 0 : findSchool.school_parents.find((id) => (id === null || id === void 0 ? void 0 : id._id.toString()) === (findParent === null || findParent === void 0 ? void 0 : findParent._id.toString()));
+    if ((findStudent && findParent) || studentExit) {
         (0, ControllerError_1.throwError)("Student is already admitted", http_status_codes_1.StatusCodes.CONFLICT);
     }
     else {
-        let _id = "";
         if (!(body === null || body === void 0 ? void 0 : body.parent_password))
             (0, ControllerError_1.throwError)("Password required", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
         const hashPassword = yield bcrypt_1.default.hash(body === null || body === void 0 ? void 0 : body.parent_password, yield (0, utils_1.salt)());
         if (!hashPassword)
-            (0, ControllerError_1.throwError)("Password cant be hashed, try again", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
-        const parentStudentAccount = new students_model_1.default(Object.assign(Object.assign({}, req.body), { parent_password: hashPassword, user_name: (0, utils_1.getUniqueName)(body.student_name).split(" ")[1] }));
-        if (parentStudentAccount)
-            _id = parentStudentAccount._id;
-        yield parentStudentAccount.save();
-        findSchool === null || findSchool === void 0 ? void 0 : findSchool.school_students.push(_id);
-        yield findSchool.save();
-        (0, sendParentsEmails_1.default)(parentStudentAccount === null || parentStudentAccount === void 0 ? void 0 : parentStudentAccount.parent_email, parentStudentAccount === null || parentStudentAccount === void 0 ? void 0 : parentStudentAccount.student_name);
+            (0, ControllerError_1.throwError)("Cant set password, try again", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
+        const studentAccount = new students_model_1.default({
+            user_name: (0, utils_1.getUniqueName)(body.student_name).split(" ")[1],
+            student_name: body.student_name,
+            date_of_birth: body.date_of_birth,
+            nationality: body.nationality,
+            state_of_origin: body.state_of_origin,
+            local_government_area: body.local_government_area,
+            profile_picture: body.profile_picture,
+            student_intended_class: body.student_intended_class,
+        });
+        yield studentAccount.save();
+        if (!parentExit) {
+            const createParentAccount = new parents_model_1.default({
+                parent_email: body.parent_email,
+                parent_name: body.parent_name,
+                parent_password: hashPassword,
+                parent_phone_number: body.parent_phone_number,
+                parent_address: body.parent_address,
+                school_ref: findSchool === null || findSchool === void 0 ? void 0 : findSchool.id,
+            });
+            yield createParentAccount.save();
+            yield (createParentAccount === null || createParentAccount === void 0 ? void 0 : createParentAccount.students.push(studentAccount._id));
+            yield createParentAccount.save();
+            findSchool === null || findSchool === void 0 ? void 0 : findSchool.school_students.push(studentAccount._id);
+            findSchool === null || findSchool === void 0 ? void 0 : findSchool.school_parents.push(createParentAccount === null || createParentAccount === void 0 ? void 0 : createParentAccount._id);
+            yield (findSchool === null || findSchool === void 0 ? void 0 : findSchool.save());
+            yield (students_model_1.default === null || students_model_1.default === void 0 ? void 0 : students_model_1.default.updateOne({ _id: studentAccount._id }, {
+                school_ref: findSchool === null || findSchool === void 0 ? void 0 : findSchool._id,
+                parent_ref: createParentAccount === null || createParentAccount === void 0 ? void 0 : createParentAccount._id,
+            }));
+        }
+        else {
+            (_b = findParent === null || findParent === void 0 ? void 0 : findParent.students) === null || _b === void 0 ? void 0 : _b.push(studentAccount._id);
+            yield (findParent === null || findParent === void 0 ? void 0 : findParent.save());
+            findSchool === null || findSchool === void 0 ? void 0 : findSchool.school_students.push(studentAccount._id);
+            yield findSchool.save();
+            yield (students_model_1.default === null || students_model_1.default === void 0 ? void 0 : students_model_1.default.updateOne({ _id: studentAccount._id }, {
+                school_ref: findSchool === null || findSchool === void 0 ? void 0 : findSchool._id,
+                parent_ref: findParent === null || findParent === void 0 ? void 0 : findParent._id,
+            }));
+        }
+        (0, sendParentsEmails_1.default)(findParent === null || findParent === void 0 ? void 0 : findParent.parent_email, studentAccount === null || studentAccount === void 0 ? void 0 : studentAccount.student_name);
         res.status(http_status_codes_1.StatusCodes.OK).json({
             message: "Student admitted successfully",
             userName: (0, utils_1.getUniqueName)(body.student_name).split(" ")[1],
@@ -68,7 +108,7 @@ exports.admitStudentBySchool = (0, express_async_handler_1.default)((req, res, n
     }
 }));
 exports.getSchoolStudents = (0, express_async_handler_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    var _b;
+    var _c;
     const { school_id } = req.query;
     const findSchool = yield school_model_1.default
         .findOne({
@@ -79,7 +119,7 @@ exports.getSchoolStudents = (0, express_async_handler_1.default)((req, res, next
     if (!findSchool) {
         (0, ControllerError_1.throwError)("You need to provide valid the school _id", 404);
     }
-    if ((findSchool === null || findSchool === void 0 ? void 0 : findSchool._id.toString()) !== ((_b = req.id) === null || _b === void 0 ? void 0 : _b.toString()))
+    if ((findSchool === null || findSchool === void 0 ? void 0 : findSchool._id.toString()) !== ((_c = req.id) === null || _c === void 0 ? void 0 : _c.toString()))
         (0, ControllerError_1.throwError)("You are not authorized", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
     let _id = "";
     res
@@ -92,7 +132,7 @@ exports.loginParents = (0, express_async_handler_1.default)((req, res, next) => 
     if (!parents_name) {
         (0, ControllerError_1.throwError)("No body field must be empty", 422);
     }
-    const findOne = yield students_model_1.default.findById({
+    const findOne = yield parents_model_1.default.findById({
         parents_name: parents_name,
     });
     const comparePassword = bcrypt_1.default.compareSync(password, findOne === null || findOne === void 0 ? void 0 : findOne.parent_name);

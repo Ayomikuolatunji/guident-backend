@@ -83,6 +83,12 @@ const schoolSchema = new mongoose_1.default.Schema({
         type: Boolean,
         default: false,
     },
+    school_parents: [
+        {
+            type: mongoose_1.default.Schema.Types.ObjectId,
+            ref: "parents",
+        },
+    ],
 }, { timestamps: true });
 schoolSchema.set("autoIndex", true);
 exports.default = mongoose_1.default.model("school", schoolSchema);
