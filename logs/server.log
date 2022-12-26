@@ -442,3 +442,46 @@ error: Dec-26-2022 12:56:47: 	422 - Unprocessable Entity - Request a new token -
 error: Dec-26-2022 12:57:09: 	404 - Not Found - You need to provide valid the school _id - /api/v1/get_school_students/school?school_id=639ef41cb5ede122dcfba305 - GET - ::1
 error: Dec-26-2022 12:57:56: 	422 - Unprocessable Entity - You are not authorized - /api/v1/get_school_students/school?school_id=63a97e275a4e3db222bb944f - GET - ::1
 error: Dec-26-2022 12:58:08: 	422 - Unprocessable Entity - You are not authorized - /api/v1/get_school_students/school?school_id=63a97e275a4e3db222bb944f - GET - ::1
+info: Dec-26-2022 13:22:03: 	Server started and running on  8080
+info: Dec-26-2022 13:23:08: 	Server started and running on  8080
+error: Dec-26-2022 13:23:59: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+info: Dec-26-2022 13:25:44: 	Server started and running on  8080
+info: Dec-26-2022 13:25:53: 	Server started and running on  8080
+info: Dec-26-2022 13:25:56: 	Server started and running on  8080
+info: Dec-26-2022 13:26:32: 	Server started and running on  8080
+info: Dec-26-2022 13:26:39: 	Server started and running on  8080
+info: Dec-26-2022 13:26:54: 	Server started and running on  8080
+info: Dec-26-2022 13:27:01: 	Server started and running on  8080
+info: Dec-26-2022 13:27:27: 	Server started and running on  8080
+info: Dec-26-2022 13:36:19: 	Server started and running on  8080
+info: Dec-26-2022 13:36:22: 	Server started and running on  8080
+info: Dec-26-2022 13:42:22: 	Server started and running on  8080
+info: Dec-26-2022 13:45:07: 	Server started and running on  8080
+info: Dec-26-2022 13:47:28: 	Server started and running on  8080
+info: Dec-26-2022 13:48:40: 	Server started and running on  8080
+info: Dec-26-2022 13:49:31: 	Server started and running on  8080
+info: Dec-26-2022 13:49:42: 	Server started and running on  8080
+info: Dec-26-2022 13:49:59: 	Server started and running on  8080
+info: Dec-26-2022 13:51:50: 	Server started and running on  8080
+info: Dec-26-2022 13:52:07: 	Server started and running on  8080
+info: Dec-26-2022 13:55:18: 	Server started and running on  8080
+info: Dec-26-2022 13:55:39: 	Server started and running on  8080
+error: Dec-26-2022 13:56:25: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+error: Dec-26-2022 13:57:01: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+info: Dec-26-2022 13:58:09: 	Server started and running on  8080
+info: Dec-26-2022 13:58:14: 	Server started and running on  8080
+error: Dec-26-2022 13:58:37: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+info: Dec-26-2022 13:59:30: 	Server started and running on  8080
+info: Dec-26-2022 13:59:43: 	Server started and running on  8080
+error: Dec-26-2022 14:00:00: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+info: Dec-26-2022 14:01:51: 	Server started and running on  8080
+error: Dec-26-2022 14:02:57: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+info: Dec-26-2022 14:03:12: 	Server started and running on  8080
+info: Dec-26-2022 14:03:29: 	Server started and running on  8080
+info: Dec-26-2022 14:03:59: 	Server started and running on  8080
+error: Dec-26-2022 14:04:06: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+info: Dec-26-2022 14:05:34: 	Server started and running on  8080
+error: Dec-26-2022 14:06:23: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+info: Dec-26-2022 14:06:37: 	Server started and running on  8080
+error: Dec-26-2022 14:15:59: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+error: Dec-26-2022 14:16:07: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1

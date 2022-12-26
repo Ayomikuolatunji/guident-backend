@@ -24,9 +24,6 @@ export const admitStudentBySchool = expressAsyncHandler(
       })
       .populate("school_students school_parents")
       .select("school_students");
-
-    console.log(findSchool);
-
     if (!findSchool) {
       throwError("You need to provide valid the school _id", 404);
     }
@@ -36,7 +33,7 @@ export const admitStudentBySchool = expressAsyncHandler(
       student_name: body.student_name,
     });
     const findParent = await parentSchema.findOne({
-      parent_phone_number: body.parent_password,
+      parent_phone_number: body.parent_phone_number,
       parent_email: body.parent_email,
       parent_name: body.parent_name,
     });
@@ -47,7 +44,7 @@ export const admitStudentBySchool = expressAsyncHandler(
     const parentExit = findSchool?.school_parents!.find(
       (id: StudentSchema) => id?._id!.toString() === findParent?._id!.toString()
     );
-    if ((findStudent && findParent) || studentExit) {
+    if (findStudent || studentExit) {
       throwError("Student is already admitted", StatusCodes.CONFLICT);
     } else {
       if (!body?.parent_password!)
@@ -71,9 +68,20 @@ export const admitStudentBySchool = expressAsyncHandler(
         profile_picture: body.profile_picture,
         student_intended_class: body.student_intended_class,
       });
-
       await studentAccount.save();
-      if (!parentExit) {
+      if (parentExit && findParent) {
+        findParent?.students?.push(studentAccount._id);
+        await findParent?.save();
+        findSchool?.school_students!.push(studentAccount._id!);
+        await findSchool!.save();
+        await studentSchema?.updateOne(
+          { _id: studentAccount._id },
+          {
+            school_ref: findSchool?._id,
+            parent_ref: findParent?._id,
+          }
+        );
+      } else if (!parentExit || !findParent) {
         const createParentAccount = new parentSchema({
           parent_email: body.parent_email,
           parent_name: body.parent_name,
@@ -93,18 +101,6 @@ export const admitStudentBySchool = expressAsyncHandler(
           {
             school_ref: findSchool?._id,
             parent_ref: createParentAccount?._id,
-          }
-        );
-      } else {
-        findParent?.students?.push(studentAccount._id);
-        await findParent?.save();
-        findSchool?.school_students!.push(studentAccount._id!);
-        await findSchool!.save();
-        await studentSchema?.updateOne(
-          { _id: studentAccount._id },
-          {
-            school_ref: findSchool?._id,
-            parent_ref: findParent?._id,
           }
         );
       }
