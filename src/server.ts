@@ -60,11 +60,12 @@ if (cluster.isMaster) {
   // connecting server
   (async function startConnection() {
     try {
-      app.listen(process.env.PORT! || 8000, () => {
-        console.log(`App running on port ${process.env.PORT}`);
-        logger.info(`Server started and running on  ${process.env.PORT}`);
+      await mongoDbConnection().then(() => {
+        app.listen(process.env.PORT! || 8000, () => {
+          console.log(`App running on port ${process.env.PORT}`);
+          logger.info(`Server started and running on  ${process.env.PORT}`);
+        });
       });
-      await mongoDbConnection();
     } catch (error: any) {
       console.log(error.message);
     }

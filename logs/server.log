@@ -501,3 +501,31 @@ info: Dec-26-2022 14:29:26: 	Server started and running on  8080
 info: Dec-26-2022 14:29:27: 	Server started and running on  8080
 info: Dec-26-2022 14:29:27: 	Server started and running on  8080
 info: Dec-26-2022 14:29:27: 	Server started and running on  8080
+info: Dec-26-2022 15:07:12: 	Server started and running on  8080
+info: Dec-26-2022 15:07:12: 	Server started and running on  8080
+info: Dec-26-2022 15:07:12: 	Server started and running on  8080
+info: Dec-26-2022 15:07:13: 	Server started and running on  8080
+info: Dec-26-2022 15:10:08: 	Server started and running on  8080
+info: Dec-26-2022 15:10:08: 	Server started and running on  8080
+info: Dec-26-2022 15:10:08: 	Server started and running on  8080
+info: Dec-26-2022 15:10:08: 	Server started and running on  8080
+error: Dec-26-2022 15:10:20: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+error: Dec-26-2022 15:13:30: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+error: Dec-26-2022 15:13:33: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+error: Dec-26-2022 15:13:36: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+error: Dec-26-2022 15:13:39: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+error: Dec-26-2022 15:13:43: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+error: Dec-26-2022 15:13:47: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+error: Dec-26-2022 15:13:53: 	409 - Conflict - Student is already admitted - /api/v1/admit_student/school?school_id=63a97e275a4e3db222bb944f - POST - ::1
+info: Dec-30-2022 14:27:15: 	Server started and running on  8080
+info: Dec-30-2022 14:27:15: 	Server started and running on  8080
+info: Dec-30-2022 14:27:15: 	Server started and running on  8080
+info: Dec-30-2022 14:27:15: 	Server started and running on  8080
+info: Dec-30-2022 14:28:55: 	Server started and running on  8080
+info: Dec-30-2022 14:28:55: 	Server started and running on  8080
+info: Dec-30-2022 14:28:55: 	Server started and running on  8080
+info: Dec-30-2022 14:28:55: 	Server started and running on  8080
+info: Dec-30-2022 14:33:24: 	Server started and running on  8080
+info: Dec-30-2022 14:33:24: 	Server started and running on  8080
+info: Dec-30-2022 14:33:24: 	Server started and running on  8080
+info: Dec-30-2022 14:33:24: 	Server started and running on  8080

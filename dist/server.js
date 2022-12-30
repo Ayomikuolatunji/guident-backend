@@ -63,11 +63,12 @@ else {
     (function startConnection() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                app.listen(process.env.PORT || 8000, () => {
-                    console.log(`App running on port ${process.env.PORT}`);
-                    ErrorLogger_1.logger.info(`Server started and running on  ${process.env.PORT}`);
+                yield (0, mongoDB_1.default)().then(() => {
+                    app.listen(process.env.PORT || 8000, () => {
+                        console.log(`App running on port ${process.env.PORT}`);
+                        ErrorLogger_1.logger.info(`Server started and running on  ${process.env.PORT}`);
+                    });
                 });
-                yield (0, mongoDB_1.default)();
             }
             catch (error) {
                 console.log(error.message);
