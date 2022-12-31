@@ -7,7 +7,9 @@ const nodemailer_1 = __importDefault(require("nodemailer"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 var transporter = nodemailer_1.default.createTransport({
+    host: "smtp.gmail.com",
     service: "gmail",
+    port: 465,
     auth: {
         user: process.env.G_MAIL,
         pass: process.env.G_MAIL_KEY,

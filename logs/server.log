@@ -534,3 +534,7 @@ info: Dec-31-2022 07:51:20: 	Server started and running on  8080
 info: Dec-31-2022 07:51:20: 	Server started and running on  8080
 info: Dec-31-2022 07:51:21: 	Server started and running on  8080
 error: Dec-31-2022 11:54:10: 	422 - Unprocessable Entity - School already exist - /api/v1/create_school/ - POST - ::1
+info: Dec-31-2022 12:11:19: 	Server started and running on  8080
+info: Dec-31-2022 12:11:20: 	Server started and running on  8080
+info: Dec-31-2022 12:11:20: 	Server started and running on  8080
+info: Dec-31-2022 12:11:20: 	Server started and running on  8080
