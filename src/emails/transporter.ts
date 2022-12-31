@@ -8,7 +8,7 @@ const GOOGLE_SECRET_KEY = process.env.GOOGLE_SECRET_KEY;
 const GOOGLE_REDIRECT_URL = process.env.GOOGLE_REDIRECT_URL;
 const GOOGLE_REFRESH_TOKEN = process.env.GOOGLE_REFRESH_TOKEN;
 
-export const auth2 = new google.auth.OAuth2(
+const auth2 = new google.auth.OAuth2(
   GOOGLE_CLIENTID,
   GOOGLE_SECRET_KEY,
   GOOGLE_REDIRECT_URL
