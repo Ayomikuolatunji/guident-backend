@@ -554,3 +554,44 @@ info: Dec-31-2022 14:19:43: 	Server started and running on  8080
 info: Dec-31-2022 14:19:43: 	Server started and running on  8080
 info: Dec-31-2022 14:19:44: 	Server started and running on  8080
 info: Dec-31-2022 14:19:44: 	Server started and running on  8080
+info: Dec-31-2022 14:39:54: 	Server started and running on  8080
+info: Dec-31-2022 14:39:54: 	Server started and running on  8080
+info: Dec-31-2022 14:39:54: 	Server started and running on  8080
+info: Dec-31-2022 14:39:55: 	Server started and running on  8080
+info: Dec-31-2022 14:41:28: 	Server started and running on  8080
+info: Dec-31-2022 14:41:28: 	Server started and running on  8080
+info: Dec-31-2022 14:41:28: 	Server started and running on  8080
+info: Dec-31-2022 14:41:28: 	Server started and running on  8080
+info: Dec-31-2022 14:44:42: 	Server started and running on  8080
+info: Dec-31-2022 14:44:42: 	Server started and running on  8080
+info: Dec-31-2022 14:44:42: 	Server started and running on  8080
+info: Dec-31-2022 14:44:42: 	Server started and running on  8080
+error: Dec-31-2022 14:45:09: 	500 - Internal Server Error - invalid_grant - /api/v1/create_school/ - POST - ::1
+info: Dec-31-2022 14:46:22: 	Server started and running on  8080
+info: Dec-31-2022 14:46:22: 	Server started and running on  8080
+info: Dec-31-2022 14:46:22: 	Server started and running on  8080
+info: Dec-31-2022 14:46:22: 	Server started and running on  8080
+error: Dec-31-2022 14:46:25: 	422 - Unprocessable Entity - School already exist - /api/v1/create_school/ - POST - ::1
+error: Dec-31-2022 14:46:47: 	500 - Internal Server Error - invalid_grant - /api/v1/create_school/ - POST - ::1
+info: Dec-31-2022 14:48:51: 	Server started and running on  8080
+info: Dec-31-2022 14:48:51: 	Server started and running on  8080
+info: Dec-31-2022 14:48:51: 	Server started and running on  8080
+info: Dec-31-2022 14:48:51: 	Server started and running on  8080
+error: Dec-31-2022 14:48:58: 	500 - Internal Server Error - unauthorized_client - /api/v1/create_school/ - POST - ::1
+error: Dec-31-2022 14:50:15: 	500 - Internal Server Error - unauthorized_client - /api/v1/create_school/ - POST - ::1
+info: Dec-31-2022 14:52:13: 	Server started and running on  8080
+info: Dec-31-2022 14:52:13: 	Server started and running on  8080
+info: Dec-31-2022 14:52:13: 	Server started and running on  8080
+info: Dec-31-2022 14:52:13: 	Server started and running on  8080
+error: Dec-31-2022 14:52:49: 	422 - Unprocessable Entity - School already exist - /api/v1/create_school/ - POST - ::1
+error: Dec-31-2022 14:53:05: 	500 - Internal Server Error - unauthorized_client - /api/v1/create_school/ - POST - ::1
+error: Dec-31-2022 14:53:21: 	422 - Unprocessable Entity - School already exist - /api/v1/create_school/ - POST - ::1
+error: Dec-31-2022 14:53:38: 	500 - Internal Server Error - unauthorized_client - /api/v1/create_school/ - POST - ::1
+info: Dec-31-2022 14:58:45: 	Server started and running on  8080
+info: Dec-31-2022 14:58:45: 	Server started and running on  8080
+info: Dec-31-2022 14:58:45: 	Server started and running on  8080
+info: Dec-31-2022 14:58:45: 	Server started and running on  8080
+info: Dec-31-2022 15:00:08: 	Server started and running on  8080
+info: Dec-31-2022 15:00:08: 	Server started and running on  8080
+info: Dec-31-2022 15:00:08: 	Server started and running on  8080
+info: Dec-31-2022 15:00:08: 	Server started and running on  8080

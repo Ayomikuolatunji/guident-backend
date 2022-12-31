@@ -1,3 +1,4 @@
+import { throwError } from "../../middleware/ControllerError";
 import transporter from "../transporter";
 
 const sendParentsReqEmail = async (email: string, name: string) => {
@@ -16,9 +17,10 @@ const sendParentsReqEmail = async (email: string, name: string) => {
     `,
   };
   // send email after successful signup
-  await (await transporter()).sendMail(mailOptions, function (error, info) {
+  (await transporter()).sendMail(mailOptions, function (error, info) {
     if (error) {
-      console.log(error.message);
+      console.log(error);
+      throwError(error.message, 400);
     } else {
       console.log("Email sent: " + info.response);
     }

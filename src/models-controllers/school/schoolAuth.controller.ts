@@ -195,7 +195,7 @@ export const resetSchoolAccountPassword = expressAsyncHandler(
       );
     const otp = generateOTP();
     await schoolSchema.updateOne({ school_email: schoolEmail }, { otp: otp });
-    resetSchoolPassword(
+    await resetSchoolPassword(
       findSchool?.school_email!,
       findSchool?.school_name!,
       otp

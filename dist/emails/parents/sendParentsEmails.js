@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const ControllerError_1 = require("../../middleware/ControllerError");
 const transporter_1 = __importDefault(require("../transporter"));
 const sendParentsReqEmail = (email, name) => __awaiter(void 0, void 0, void 0, function* () {
     const mailOptions = {
@@ -29,9 +30,10 @@ const sendParentsReqEmail = (email, name) => __awaiter(void 0, void 0, void 0, f
     `,
     };
     // send email after successful signup
-    yield (yield (0, transporter_1.default)()).sendMail(mailOptions, function (error, info) {
+    (yield (0, transporter_1.default)()).sendMail(mailOptions, function (error, info) {
         if (error) {
-            console.log(error.message);
+            console.log(error);
+            (0, ControllerError_1.throwError)(error.message, 400);
         }
         else {
             console.log("Email sent: " + info.response);

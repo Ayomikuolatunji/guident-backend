@@ -98,7 +98,7 @@ exports.admitStudentBySchool = (0, express_async_handler_1.default)((req, res, n
                 parent_ref: createParentAccount === null || createParentAccount === void 0 ? void 0 : createParentAccount._id,
             }));
         }
-        (0, sendParentsEmails_1.default)(findParent === null || findParent === void 0 ? void 0 : findParent.parent_email, studentAccount === null || studentAccount === void 0 ? void 0 : studentAccount.student_name);
+        yield (0, sendParentsEmails_1.default)(findParent === null || findParent === void 0 ? void 0 : findParent.parent_email, studentAccount === null || studentAccount === void 0 ? void 0 : studentAccount.student_name);
         res.status(http_status_codes_1.StatusCodes.OK).json({
             message: "Student admitted successfully",
             userName: (0, utils_1.getUniqueName)(body.student_name).split(" ")[1],

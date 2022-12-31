@@ -163,7 +163,7 @@ exports.resetSchoolAccountPassword = (0, express_async_handler_1.default)((req, 
         (0, ControllerError_1.throwError)("School does not exist with the email provided", http_status_codes_1.StatusCodes.UNPROCESSABLE_ENTITY);
     const otp = (0, opt_generator_1.generateOTP)();
     yield school_model_1.default.updateOne({ school_email: schoolEmail }, { otp: otp });
-    (0, ResetPasswordEmail_1.default)(findSchool === null || findSchool === void 0 ? void 0 : findSchool.school_email, findSchool === null || findSchool === void 0 ? void 0 : findSchool.school_name, otp);
+    yield (0, ResetPasswordEmail_1.default)(findSchool === null || findSchool === void 0 ? void 0 : findSchool.school_email, findSchool === null || findSchool === void 0 ? void 0 : findSchool.school_name, otp);
     res.status(http_status_codes_1.StatusCodes.OK).json({ message: "Opt sent successfully" });
 }));
 exports.requestVerificationOtp = (0, express_async_handler_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {

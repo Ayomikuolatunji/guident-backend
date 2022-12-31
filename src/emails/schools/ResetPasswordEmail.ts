@@ -1,3 +1,4 @@
+import { throwError } from "../../middleware/ControllerError";
 import transporter from "../transporter";
 
 const resetSchoolPassword = async (
@@ -23,7 +24,8 @@ const resetSchoolPassword = async (
   // send email after successful signup
   (await transporter()).sendMail(mailOptions, function (error, info) {
     if (error) {
-      console.log(error.message);
+      console.log(error);
+      throwError(error.message,  400);
     } else {
       console.log("Email sent: " + info.response);
     }

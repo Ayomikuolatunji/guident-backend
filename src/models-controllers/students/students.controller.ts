@@ -104,7 +104,7 @@ export const admitStudentBySchool = expressAsyncHandler(
           }
         );
       }
-      sendParentsReqEmail(
+      await sendParentsReqEmail(
         findParent?.parent_email!,
         studentAccount?.student_name!
       );
