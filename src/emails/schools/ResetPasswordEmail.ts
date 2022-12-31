@@ -1,6 +1,10 @@
 import transporter from "../transporter";
 
-const resetSchoolPassword = (email: string, name: string, otp: string) => {
+const resetSchoolPassword = async (
+  email: string,
+  name: string,
+  otp: string
+) => {
   const mailOptions = {
     from: "guident.team@gmail.com",
     to: email,
@@ -17,7 +21,7 @@ const resetSchoolPassword = (email: string, name: string, otp: string) => {
     `,
   };
   // send email after successful signup
-  transporter.sendMail(mailOptions, function (error, info) {
+  (await transporter()).sendMail(mailOptions, function (error, info) {
     if (error) {
       console.log(error.message);
     } else {

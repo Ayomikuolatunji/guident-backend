@@ -42,7 +42,7 @@ export const createSchoolAccount = expressAsyncHandler(
       admin_password: hashPassword,
     });
     const result = await school.save();
-    sendSchoolReqEmail(result.school_email!!, result.school_name!!);
+    await sendSchoolReqEmail(result.school_email!!, result.school_name!!);
     res.status(StatusCodes.OK).json({
       message: "Account created successfully, please verify your email address",
     });
@@ -225,7 +225,7 @@ export const requestVerificationOtp = expressAsyncHandler(
       );
     const otp = generateOTP();
     await schoolSchema.updateOne({ _id: findSchool?._id }, { otp: otp });
-    resetSchoolPassword(
+    await resetSchoolPassword(
       findSchool?.school_email!,
       findSchool?.school_name!,
       otp
@@ -288,7 +288,11 @@ export const requestOtp = expressAsyncHandler(async (req, res, next) => {
     );
   const otp = generateOTP();
   await schoolSchema.updateOne({ _id: findSchool?._id }, { otp: otp });
-  resetSchoolPassword(findSchool?.school_email!, findSchool?.school_name!, otp);
+  await resetSchoolPassword(
+    findSchool?.school_email!,
+    findSchool?.school_name!,
+    otp
+  );
   res.status(StatusCodes.OK).json({ message: "Opt sent successfully" });
 });
 

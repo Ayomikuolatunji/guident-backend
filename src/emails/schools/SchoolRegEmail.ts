@@ -1,6 +1,6 @@
 import transporter from "../transporter";
 
-const sendSchoolReqEmail = (email: string, name: string) => {
+const sendSchoolReqEmail = async (email: string, name: string) => {
   const mailOptions = {
     from: "guident.team@gmail.com",
     to: email,
@@ -16,7 +16,7 @@ const sendSchoolReqEmail = (email: string, name: string) => {
     `,
   };
   // send email after successful signup
-  transporter.sendMail(mailOptions, function (error, info) {
+  (await transporter()).sendMail(mailOptions, function (error, info) {
     if (error) {
       console.log(error.message);
     } else {
